@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class DeliverJob extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'deadline', 'assigned_driver', 'order_id'
+    ];
+
+    public function driver()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+}

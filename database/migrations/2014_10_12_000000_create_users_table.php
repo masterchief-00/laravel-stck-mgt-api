@@ -21,6 +21,7 @@ return new class extends Migration
          * DLV---> SHIPPING MANAGER
          * DRV---> DRIVER
          */
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -28,7 +29,7 @@ return new class extends Migration
             $table->string('ID_NO');
             $table->string('phone');
             $table->string('user_type')->default('USR');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
