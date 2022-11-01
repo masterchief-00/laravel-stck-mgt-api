@@ -13,13 +13,13 @@ class DeliverJobController extends Controller
         return DeliverJob::all();
     }
 
-    /**create new orderItem */
+    /**create new orderItem: USELESS METHOD */
     public function store(Request $request)
     {
         $fields = $request->validate([
-            'assigned_driver' => 'required',
+            'assigned_driver' => 'required|nullable',
             'order_id' => 'required',
-            'deadline' => 'required',
+            'deadline' => 'required|nullable',
         ]);
         $deliverJob = DeliverJob::create([
             'assigned_driver' => $fields['assigned_driver'],

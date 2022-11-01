@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeliverJob;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class OrderController extends Controller
             'email' => 'required|email',
             'status' => 'required|string',
             'user_id' => 'required',
-            'total' => 'required'
+            'total' => 'nullable'
         ]);
         $order = Order::create([
             'names' => $fields['names'],
@@ -68,9 +69,16 @@ class OrderController extends Controller
         $order->total = $fields['total'];
         $order->update();
 
+        if ($order->status == 'APPROVED') {
+            $deliverJob = DeliverJob::create([
+                'order_id' => $order->id,
+            ]);
+        }
+
         return [
             'message' => 'order updated',
-            'product' => $order
+            'product' => $order,
+            'deliver job' => $deliverJob
         ];
     }
 

@@ -14,10 +14,10 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'ID_NO' => 'required|unique:users,ID_NO',
-            'phone' => 'required|unique:users,users',
+            'phone' => 'required|unique:users,phone',
             'user_type' => 'required',
             'image' => 'image|mimes:jpeg,jpg,png|nullable',
-            'password' => 'required'
+            'password' => 'required|min:8'
         ]);
         $user = User::create([
             'name' => $fields['name'],
@@ -33,8 +33,32 @@ class UserController extends Controller
 
         return [
             'message' => 'user registered',
-            'product' => $user,
+            'user' => $user,
             'token' => $token
         ];
+    }
+    public function login(Request $request)
+    {
+        $fields = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        $user = User::where('email', $fields['email'])->first();
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
+            return [
+                'message' => 'invalid credentials'
+            ];
+        }
+
+        $token = $user->createToken('myapptoken')->plainTextToken;
+
+        return [
+            'message' => 'user logged in',
+            'token' => $token
+        ];
+    }
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
     }
 }

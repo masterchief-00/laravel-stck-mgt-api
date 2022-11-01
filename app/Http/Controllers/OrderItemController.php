@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
@@ -20,18 +21,37 @@ class OrderItemController extends Controller
             'product_id' => 'required',
             'order_id' => 'required',
             'quantity' => 'required',
-            'total_price' => 'required',
-        ]);
-        $orderItem = OrderItem::create([
-            'product_id' => $fields['product_id'],
-            'order_id' => $fields['order_id'],
-            'quantity' => $fields['quantity'],
-            'total_price' => $fields['total_price'],
+            'total_price' => 'nullable',
         ]);
 
+        $orderItem = new OrderItem();
+        $orderItem->product_id = $fields['product_id'];
+        $orderItem->order_id =  $fields['order_id'];
+        $orderItem->quantity =  $fields['quantity'];
+
+        $unit_price = $orderItem->product->unit_price;
+
+        $total_price = floatval($fields['quantity']) * $unit_price;
+        $orderItem->total_price =  $total_price;
+
+        $orderItem->save();
+
+        $allItems = OrderItem::where('order_id', $orderItem->order_id)->get();
+
+        $sum = 0;
+        foreach ($allItems as $item) {
+            $sum = $sum + $item->total_price;
+        }
+
+        $order = Order::find($orderItem->order_id);
+        $order->total = $sum;
+
+        $order->update();
+        
         return [
             'message' => 'order item created',
-            'product' => $orderItem
+            'order item' => $orderItem,
+            'grand total' => $order
         ];
     }
 
