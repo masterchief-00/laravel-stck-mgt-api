@@ -15,7 +15,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'ID_NO' => 'required|unique:users,ID_NO',
             'phone' => 'required|unique:users,phone',
-            'user_type' => 'required',
+            'user_type' => 'nullable',
             'image' => 'image|mimes:jpeg,jpg,png|nullable',
             'password' => 'required|min:8'
         ]);
@@ -24,10 +24,11 @@ class UserController extends Controller
             'email' => $fields['email'],
             'ID_NO' => $fields['ID_NO'],
             'phone' => $fields['phone'],
-            'user_type' => $fields['user_type'],
+            'user_type' => 'USR',
             'image' => $fields['image'],
             'password' => Hash::make($fields['password'])
         ]);
+        $user->assignRole('USR');
 
         $token = $user->createToken('myapptoken')->plainTextToken;
 
@@ -59,6 +60,13 @@ class UserController extends Controller
     }
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $user = User::find(auth()->user()->id);
+
+        if ($user->can('user:logout')) {
+            $request->user()->currentAccessToken()->delete();
+            return ['message' => 'user logged out'];
+        } else {
+            return ['message' => 'unauthorised'];
+        }
     }
 }

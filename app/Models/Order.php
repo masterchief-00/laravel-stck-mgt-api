@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class Order extends Model
 {
     use HasFactory;
+    use HasRoles;
 
     protected $fillable = [
         'total', 'names','user_id', 'province', 'district', 'phone', 'email', 'status'
