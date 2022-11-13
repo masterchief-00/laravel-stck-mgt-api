@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:ADM|WHS|USR']);
+    }
+
     /**list all products */
     public function index()
     {
@@ -25,20 +32,24 @@ class ProductController extends Controller
             'arriv_date' => 'required',
             'unit_price' => 'required'
         ]);
-        $product = Product::create([
-            'name' => $fields['name'],
-            'SKU' => $fields['SKU'],
-            'category_id' => $fields['category_id'],
-            'quantity' => $fields['quantity'],
-            'exp_date' => $fields['exp_date'],
-            'arriv_date' => $fields['arriv_date'],
-            'unit_price' => $fields['unit_price'],
-        ]);
+        if ($request->user()->can('product:register')) {
+            $product = Product::create([
+                'name' => $fields['name'],
+                'SKU' => $fields['SKU'],
+                'category_id' => $fields['category_id'],
+                'quantity' => $fields['quantity'],
+                'exp_date' => $fields['exp_date'],
+                'arriv_date' => $fields['arriv_date'],
+                'unit_price' => $fields['unit_price'],
+            ]);
 
-        return [
-            'message' => 'product added',
-            'product' => $product
-        ];
+            return [
+                'message' => 'product added',
+                'product' => $product
+            ];
+        } else {
+            return ['message' => 'unauthorised for this action'];
+        }
     }
 
     /** update product */
@@ -53,20 +64,24 @@ class ProductController extends Controller
             'arriv_date' => 'required',
             'unit_price' => 'required'
         ]);
-        $product = Product::find($id);
-        $product->name = $fields['name'];
-        $product->SKU = $fields['SKU'];
-        $product->category_id = $fields['category_id'];
-        $product->quantity = $fields['quantity'];
-        $product->exp_date = $fields['exp_date'];
-        $product->arriv_date = $fields['arriv_date'];
-        $product->unit_price = $fields['unit_price'];
-        $product->update();
+        if ($request->user()->can('product:update')) {
+            $product = Product::find($id);
+            $product->name = $fields['name'];
+            $product->SKU = $fields['SKU'];
+            $product->category_id = $fields['category_id'];
+            $product->quantity = $fields['quantity'];
+            $product->exp_date = $fields['exp_date'];
+            $product->arriv_date = $fields['arriv_date'];
+            $product->unit_price = $fields['unit_price'];
+            $product->update();
 
-        return [
-            'message' => 'product updated',
-            'product' => $product
-        ];
+            return [
+                'message' => 'product updated',
+                'product' => $product
+            ];
+        } else {
+            return ['message' => 'unauthorised for this action'];
+        }
     }
 
     /** search product by id */
@@ -78,16 +93,21 @@ class ProductController extends Controller
     /** delete product */
     public function destroy($id)
     {
-        $product = Product::find($id);
-        $response = $product->delete();
-        if ($response == 1) {
-            return [
-                'message' => 'product deleted',
-            ];
+        $user = User::find(auth()->user()->id);
+        if ($user->can('product:delete')) {
+            $product = Product::find($id);
+            $response = $product->delete();
+            if ($response == 1) {
+                return [
+                    'message' => 'product deleted',
+                ];
+            } else {
+                return [
+                    'message' => 'not deleted',
+                ];
+            }
         } else {
-            return [
-                'message' => 'not deleted',
-            ];
+            return ['message' => 'unauthorised for this action'];
         }
     }
 }

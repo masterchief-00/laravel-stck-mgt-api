@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\DeliverJob;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DeliverJobController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:ADM|DLV|DRV']);
+    }
     /**list all orderItems */
     public function index()
     {
@@ -21,16 +26,20 @@ class DeliverJobController extends Controller
             'order_id' => 'required',
             'deadline' => 'required|nullable',
         ]);
-        $deliverJob = DeliverJob::create([
-            'assigned_driver' => $fields['assigned_driver'],
-            'order_id' => $fields['order_id'],
-            'deadline' => $fields['deadline'],
-        ]);
+        if ($request->user()->can('job:register')) {
+            $deliverJob = DeliverJob::create([
+                'assigned_driver' => $fields['assigned_driver'],
+                'order_id' => $fields['order_id'],
+                'deadline' => $fields['deadline'],
+            ]);
 
-        return [
-            'message' => 'job created',
-            'product' => $deliverJob
-        ];
+            return [
+                'message' => 'job created',
+                'product' => $deliverJob
+            ];
+        } else {
+            return ['message' => 'unauthorised for this action'];
+        }
     }
 
     /** update order */
@@ -41,17 +50,20 @@ class DeliverJobController extends Controller
             'order_id' => 'required',
             'deadline' => 'required',
         ]);
+        if ($request->user()->can('job:update')) {
+            $deliverJob = DeliverJob::find($id);
+            $deliverJob->assigned_driver = $fields['assigned_driver'];
+            $deliverJob->order_id = $fields['order_id'];
+            $deliverJob->deadline = $fields['deadline'];
+            $deliverJob->update();
 
-        $deliverJob = DeliverJob::find($id);
-        $deliverJob->assigned_driver = $fields['assigned_driver'];
-        $deliverJob->order_id = $fields['order_id'];
-        $deliverJob->deadline = $fields['deadline'];
-        $deliverJob->update();
-
-        return [
-            'message' => 'job updated',
-            'product' => $deliverJob
-        ];
+            return [
+                'message' => 'job updated',
+                'product' => $deliverJob
+            ];
+        } else {
+            return ['message' => 'unauthorised for this action'];
+        }
     }
 
     /** search order by id */
@@ -63,16 +75,21 @@ class DeliverJobController extends Controller
     /** delete order */
     public function destroy($id)
     {
-        $deliverJob = DeliverJob::find($id);
-        $response = $deliverJob->delete();
-        if ($response == 1) {
-            return [
-                'message' => 'job deleted',
-            ];
+        $user = User::find(auth()->user()->id);
+        if ($user->can('job:delete')) {
+            $deliverJob = DeliverJob::find($id);
+            $response = $deliverJob->delete();
+            if ($response == 1) {
+                return [
+                    'message' => 'job deleted',
+                ];
+            } else {
+                return [
+                    'message' => 'not deleted',
+                ];
+            }
         } else {
-            return [
-                'message' => 'not deleted',
-            ];
+            return ['message' => 'unauthorised for this action'];
         }
     }
 }

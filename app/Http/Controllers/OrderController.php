@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:ADM|WHS']);
+    }
     /**list all orders */
     public function index()
     {
@@ -23,25 +27,30 @@ class OrderController extends Controller
             'district' => 'required|string',
             'phone' => 'required',
             'email' => 'required|email',
-            'status' => 'required|string',
+            'status' => 'string|nullable',
             'user_id' => 'required',
             'total' => 'nullable'
         ]);
-        $order = Order::create([
-            'names' => $fields['names'],
-            'province' => $fields['province'],
-            'district' => $fields['district'],
-            'phone' => $fields['phone'],
-            'email' => $fields['email'],
-            'user_id' => $fields['user_id'],
-            'status' => $fields['status'],
-            'total' => $fields['total']
-        ]);
 
-        return [
-            'message' => 'order created',
-            'product' => $order
-        ];
+        if ($request->user()->can('order:register')) {
+            $order = Order::create([
+                'names' => $fields['names'],
+                'province' => $fields['province'],
+                'district' => $fields['district'],
+                'phone' => $fields['phone'],
+                'email' => $fields['email'],
+                'user_id' => $fields['user_id'],
+                'status' => 'PENDING',
+                'total' => $fields['total']
+            ]);
+
+            return [
+                'message' => 'order created',
+                'product' => $order
+            ];
+        } else {
+            return ['message' => 'unauthorised for this action'];
+        }
     }
 
     /** update order */
@@ -53,35 +62,73 @@ class OrderController extends Controller
             'district' => 'required|string',
             'phone' => 'required',
             'email' => 'required|email',
-            'status' => 'required|string',
+            'status' => 'string|nullable',
             'user_id' => 'required',
             'total' => 'required'
         ]);
+        if ($request->user()->can('order:update')) {
+            $order = Order::find($id);
+            $order->names = $fields['names'];
+            $order->province = $fields['province'];
+            $order->district = $fields['district'];
+            $order->phone = $fields['phone'];
+            $order->email = $fields['email'];
+            $order->status = $fields['status'];
+            $order->user_id = $fields['user_id'];
+            $order->total = $fields['total'];
+            $order->update();
 
-        $order = Order::find($id);
-        $order->names = $fields['names'];
-        $order->province = $fields['province'];
-        $order->district = $fields['district'];
-        $order->phone = $fields['phone'];
-        $order->email = $fields['email'];
-        $order->status = $fields['status'];
-        $order->user_id = $fields['user_id'];
-        $order->total = $fields['total'];
-        $order->update();
+            if ($order->status == 'APPROVED') {
+                $deliverJob = DeliverJob::create([
+                    'order_id' => $order->id,
+                ]);
+            }
 
-        if ($order->status == 'APPROVED') {
-            $deliverJob = DeliverJob::create([
-                'order_id' => $order->id,
-            ]);
+            return [
+                'message' => 'order updated',
+                'product' => $order,
+                'deliver job' => $deliverJob
+            ];
+        } else {
+            return ['message' => 'unauthorised for this action'];
         }
-
-        return [
-            'message' => 'order updated',
-            'product' => $order,
-            'deliver job' => $deliverJob
-        ];
     }
 
+    /**update order status */
+    public function update_status(Request $request, $id)
+    {
+        $fields = $request->validate([
+            'status' => 'required|string'
+        ]);
+        if ($request->user()->can('order:update')) {
+            $order = Order::find($id);
+            $deliverJob = null;
+            if ($order) {
+                $order->status = $fields['status'];
+                if ($fields['status'] == 'APPROVED') {
+                    $deliverJob = DeliverJob::create([
+                        'order_id' => $order->id,
+                    ]);
+                    return [
+                        'message' => 'order approved',
+                        'order' => $order,
+                        'deliver job' => $deliverJob
+                    ];
+                } else if ($fields['status'] == 'DELIVERED') {
+                    $deliverJob = DeliverJob::where('order_id', $order->id)->first();
+                    $deliverJob->delete();
+
+                    return [
+                        'message' => 'order delivered & job deleted',
+                    ];
+                }
+            }
+        } else {
+            return [
+                'message' => 'unauthorised for this action',
+            ];
+        }
+    }
     /** search order by id */
     public function show($id)
     {
@@ -91,16 +138,22 @@ class OrderController extends Controller
     /** delete order */
     public function destroy($id)
     {
-        $order = Order::find($id);
-        $response = $order->delete();
-        if ($response == 1) {
-            return [
-                'message' => 'order deleted',
-            ];
+        $user = auth()->user()->id;
+
+        if ($user->can('order:delete')) {
+            $order = Order::find($id);
+            $response = $order->delete();
+            if ($response == 1) {
+                return [
+                    'message' => 'order deleted',
+                ];
+            } else {
+                return [
+                    'message' => 'not deleted',
+                ];
+            }
         } else {
-            return [
-                'message' => 'not deleted',
-            ];
+            return ['message' => 'unauthorised for this action'];
         }
     }
 }

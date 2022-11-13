@@ -27,11 +27,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 /** USER ROUTES */
 Route::post('/signup', [UserController::class, 'register']);
+Route::post('/admin_signup', [UserController::class, 'register_admin']);
 Route::post('/login', [UserController::class, 'login']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('/admin/update_role/{email}', [UserController::class, 'update_role']);
 
     /** CATEGORIES ROUTES */
     Route::get('/categories', [CategoryController::class, 'index']);
@@ -50,6 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     /** ORDERS ROUTES */
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
+    Route::post('/orders/{id}', [OrderController::class, 'update_status']);
     Route::put('/orders/{id}', [OrderController::class, 'update']);
     Route::get('/orders/{id}', [OrderController::class, 'show']);
     Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
