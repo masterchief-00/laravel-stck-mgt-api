@@ -32,34 +32,46 @@ class OrderItemController extends Controller
 
         if ($request->user()->can('orderItem:register')) {
             $orderItem = new OrderItem();
+
             $orderItem->product_id = $fields['product_id'];
             $orderItem->order_id =  $fields['order_id'];
             $orderItem->quantity =  $fields['quantity'];
 
-            $unit_price = $orderItem->product->unit_price;
+            $avaialable_qty = intval($orderItem->product->quantity);
+            $requested_qty = intval($fields['quantity']);
+            /** check if the client's asked quantity is available */
+            if ($avaialable_qty > $requested_qty) {
+                $unit_price = $orderItem->product->unit_price;
 
-            $total_price = floatval($fields['quantity']) * $unit_price;
-            $orderItem->total_price =  $total_price;
+                $total_price = floatval($fields['quantity']) * $unit_price;
+                $orderItem->total_price =  $total_price;
+                $orderItem->product->quantity -= $requested_qty;
 
-            $orderItem->save();
+                $orderItem->product->update();
+                $orderItem->save();
 
-            $allItems = OrderItem::where('order_id', $orderItem->order_id)->get();
+                $allItems = OrderItem::where('order_id', $orderItem->order_id)->get();
 
-            $sum = 0;
-            foreach ($allItems as $item) {
-                $sum = $sum + $item->total_price;
+                $sum = 0;
+                foreach ($allItems as $item) {
+                    $sum = $sum + $item->total_price;
+                }
+
+                $order = Order::find($orderItem->order_id);
+                $order->total = $sum;
+
+                $order->update();
+
+                return [
+                    'message' => 'order item created',
+                    'order item' => $orderItem,
+                    'order' => $order
+                ];
+            } else {
+                return [
+                    'message' => 'unavailable quantity',
+                ];
             }
-
-            $order = Order::find($orderItem->order_id);
-            $order->total = $sum;
-
-            $order->update();
-
-            return [
-                'message' => 'order item created',
-                'order item' => $orderItem,
-                'grand total' => $order
-            ];
         } else {
             return ['message' => 'unauthorised for this action'];
         }

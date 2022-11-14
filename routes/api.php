@@ -6,7 +6,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
-use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,7 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     /** ORDERS ROUTES */
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/orders', [OrderController::class, 'store']);
-    Route::post('/orders/{id}', [OrderController::class, 'update_status']);
+    Route::put('/orders/status/{id}', [OrderController::class, 'update_status']);
     Route::put('/orders/{id}', [OrderController::class, 'update']);
     Route::get('/orders/{id}', [OrderController::class, 'show']);
     Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
@@ -67,6 +66,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     /** DELIVERY JOB ROUTES */
     Route::get('/deliverJobs', [DeliverJobController::class, 'index']);
     Route::put('/deliverJobs/{id}', [DeliverJobController::class, 'update']);
+    Route::put('deliverJobs/assign/{id}', [DeliverJobController::class, 'assign_driver']);
     Route::get('/deliverJobs/{id}', [DeliverJobController::class, 'show']);
     Route::delete('/deliverJobs/{id}', [DeliverJobController::class, 'destroy']);
 });

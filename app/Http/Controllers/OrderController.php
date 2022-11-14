@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DeliverJob;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -46,7 +47,7 @@ class OrderController extends Controller
 
             return [
                 'message' => 'order created',
-                'product' => $order
+                'order' => $order
             ];
         } else {
             return ['message' => 'unauthorised for this action'];
@@ -86,7 +87,7 @@ class OrderController extends Controller
 
             return [
                 'message' => 'order updated',
-                'product' => $order,
+                'order' => $order,
                 'deliver job' => $deliverJob
             ];
         } else {
@@ -98,7 +99,8 @@ class OrderController extends Controller
     public function update_status(Request $request, $id)
     {
         $fields = $request->validate([
-            'status' => 'required|string'
+            'status' => 'required|string',
+            'deadline' => 'nullable'
         ]);
         if ($request->user()->can('order:update')) {
             $order = Order::find($id);
@@ -108,6 +110,8 @@ class OrderController extends Controller
                 if ($fields['status'] == 'APPROVED') {
                     $deliverJob = DeliverJob::create([
                         'order_id' => $order->id,
+                        'deadline' => 'none',
+                        'assigned_driver' => null
                     ]);
                     return [
                         'message' => 'order approved',
@@ -122,6 +126,11 @@ class OrderController extends Controller
                         'message' => 'order delivered & job deleted',
                     ];
                 }
+            } else {
+                return [
+                    'message' => 'order not found',
+                    'order' => $order
+                ];
             }
         } else {
             return [
@@ -138,7 +147,7 @@ class OrderController extends Controller
     /** delete order */
     public function destroy($id)
     {
-        $user = auth()->user()->id;
+        $user = User::find(auth()->user()->id);
 
         if ($user->can('order:delete')) {
             $order = Order::find($id);

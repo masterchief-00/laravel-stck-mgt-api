@@ -42,7 +42,7 @@ class DeliverJobController extends Controller
         }
     }
 
-    /** update order */
+    /** update delivery job details */
     public function update(Request $request, $id)
     {
         $fields = $request->validate([
@@ -61,6 +61,29 @@ class DeliverJobController extends Controller
                 'message' => 'job updated',
                 'product' => $deliverJob
             ];
+        } else {
+            return ['message' => 'unauthorised for this action'];
+        }
+    }
+
+    /** assign driver to a delivery job*/
+    public function assign_driver(Request $request, $id)
+    {
+        $fields = $request->validate(['driver_id' => 'required']);
+        $driver = User::find($fields['driver_id']);
+        $current_user = User::find(auth()->user()->id);
+
+        if ($current_user->can('job:update')) {
+            if ($driver->hasRole('DRV')) {
+                $job = DeliverJob::find($id);
+
+                $job->assigned_driver = $driver->id;
+                $job->update();
+
+                return ['message' => 'driver assigned', 'job' => $job];
+            } else {
+                return ['message' => "only drivers can be assigned to deliver products"];
+            }
         } else {
             return ['message' => 'unauthorised for this action'];
         }

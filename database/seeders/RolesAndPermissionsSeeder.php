@@ -61,9 +61,9 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // or may be done by chaining
         Role::firstOrCreate(['name' => 'WHS'])
-            ->givePermissionTo(['product:register', 'product:update', 'product:delete', 'product:view', 'order:register', 'order:update', 'order:delete', 'order:view', 'orderItem:register', 'orderItem:update', 'orderItem:delete', 'orderItem:view', 'user:register', 'user:update', 'user:delete', 'user:view', 'user:logout']);
+            ->givePermissionTo(['product:register', 'product:update', 'product:delete', 'product:view', 'order:view', 'orderItem:view', 'user:register', 'user:update', 'user:delete', 'user:view', 'user:logout']);
         Role::firstOrCreate(['name' => 'DLV'])
-            ->givePermissionTo(['job:register', 'job:update', 'job:delete', 'job:view', 'order:register', 'order:update', 'order:delete', 'order:view', 'user:register', 'user:update', 'user:delete', 'user:view', 'user:logout']);
+            ->givePermissionTo(['job:register', 'job:update', 'job:delete', 'job:view', 'order:update', 'order:view', 'user:register', 'user:update', 'user:delete', 'user:view', 'user:logout']);
         Role::firstOrCreate(['name' => 'DRV'])
             ->givePermissionTo(['job:register', 'job:update', 'job:delete', 'job:view', 'user:register', 'user:update', 'user:delete', 'user:view', 'user:logout']);
         Role::firstOrCreate(['name' => 'USR'])
