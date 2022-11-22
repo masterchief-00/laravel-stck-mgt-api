@@ -128,7 +128,8 @@ class UserController extends Controller
 
         return [
             'message' => 'user logged in',
-            'token' => $token
+            'token' => $token,
+            'user' => $user
         ];
     }
     public function logout(Request $request)
