@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Analytics | Stock Management System')
+@section('title', 'Authority management | Stock Management System')
 
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                        ===================================== -->
+                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                    ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -34,7 +34,7 @@
 
 
 
-                    <li class="active">
+                    <li>
                         <a class="sidenav-item-link" href="/analytics">
                             <i class="mdi mdi-chart-line"></i>
                             <span class="nav-text">Analytics Dashboard</span>
@@ -156,14 +156,14 @@
                             <div class="sub-menu">
 
                                 <li>
-                                    <a class="sidenav-item-link" href="/categories">
+                                    <a class="sidenav-item-link" href="email-inbox.html">
                                         <span class="nav-text">All categories</span>
 
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="sidenav-item-link" href="/categories/add_categories">
+                                    <a class="sidenav-item-link" href="email-details.html">
                                         <span class="nav-text">Add category</span>
 
                                     </a>
@@ -179,13 +179,13 @@
                         Advanced actions
                     </li>
 
-                    <li class="has-sub">
+                    <li class="has-sub active expand">
                         <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
                             data-target="#users" aria-expanded="false" aria-controls="users">
                             <i class="mdi mdi-account"></i>
                             <span class="nav-text">Users</span> <b class="caret"></b>
                         </a>
-                        <ul class="collapse" id="users" data-parent="#sidebar-menu">
+                        <ul class="collapse show" id="users" data-parent="#sidebar-menu">
                             <div class="sub-menu">
 
                                 <li>
@@ -202,7 +202,7 @@
                                     </a>
                                 </li>
 
-                                <li>
+                                <li class="active">
                                     <a class="sidenav-item-link" href="/users/authority">
                                         <span class="nav-text">User authority</span>
 
@@ -268,7 +268,7 @@
 
                 <ul class="nav navbar-nav">
                     <!-- Offcanvas -->
-
+                    
                     <li class="custom-dropdown">
                         <button class="notify-toggler custom-dropdown-toggler">
                             <i class="mdi mdi-bell-outline icon"></i>
@@ -601,334 +601,174 @@
 @endsection
 
 @section('content')
-
     <div class="content">
-
-        <!-- Analytics Status -->
-        <div class="row justify-content-between mb-25 ">
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mini-status">
-                            <div class="text-content">
-                                <span class="title">my income</span>
-                                <span class="status text-primary"><i class="mdi mdi-currency-usd"></i>47,171</span>
-                            </div>
-                            <div class="chart-content">
-                                <div id="status-sm-chart-01"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mini-status">
-                            <div class="text-content ">
-                                <span class="title">site traffic</span>
-                                <span class="status text-success"><i class="mdi mdi-progress-upload"></i>45%</span>
-                            </div>
-                            <div class="chart-content">
-                                <div id="status-sm-chart-02"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mini-status">
-                            <div class="text-content">
-                                <span class="title">site orders</span>
-                                <span class="status text-info"><i class="mdi mdi-cart"></i>2447</span>
-                            </div>
-                            <div class="chart-content">
-                                <div id="status-sm-chart-03"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="card card-default">
+            <div class="card-header">
+                <h2>Find user</h2>
             </div>
-            <div class="col-lg-6 d-flex justify-content-xl-end flex-column flex-wrap align-items-lg-end">
-                <div id="mini-status-range" class="date-range date-range-lg bg-white">
-                    <span class="date-holder text-dark"></span>
-                    <i class="mdi mdi-menu-down"></i>
-                </div>
-                <span class="time-zone">Timezone: (+06:00) Asia - Dhaka</span>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput3">Search user</label>
+                        <input type="text" class="form-control rounded-pill" id="exampleFormControlInput3"
+                            placeholder="Search by email or user names">
+                    </div>
+
+                    <div class="form-footer mt-4">
+                        <button type="submit" class="btn btn-primary btn-pill">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-header">
+                <h2>Results</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Names</th>
+                            <th scope="col">Identity card</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone number</th>
+                            <th scope="col">Role</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="row">1</td>
+                            <td>Kalinda Vital</td>
+                            <td>1234567890</td>
+                            <td>kwizerapacifique19@gmail.com</td>
+                            <td>123-456-787</td>
+                            <td>USR</td>
+                            <th class="text-center">
+                                <a href="#">
+                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#userdetails"></i>
+                                </a>
+
+
+                            </th>
+                        </tr>
+                        <tr>
+                            <td scope="row">2</td>
+                            <td>Kalinda Vital</td>
+                            <td>1234567890</td>
+                            <td>kwizerapacifique19@gmail.com</td>
+                            <td>123-456-787</td>
+                            <td>WHS</td>
+                            <th class="text-center">
+                                <a href="#">
+                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#userdetails"></i>
+                                </a>
+
+
+                            </th>
+                        </tr>
+                        <tr>
+                            <td scope="row">3</td>
+                            <td>Kalinda Vital</td>
+                            <td>1234567890</td>
+                            <td>kwizerapacifique19@gmail.com</td>
+                            <td>123-456-787</td>
+                            <td>DLV</td>
+                            <th class="text-center">
+                                <a href="#">
+                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#userdetails"></i>
+                                </a>
+
+
+                            </th>
+                        </tr>
+                        <tr>
+                            <td scope="row">4</td>
+                            <td>Kalinda Vital</td>
+                            <td>1234567890</td>
+                            <td>kwizerapacifique19@gmail.com</td>
+                            <td>123-456-787</td>
+                            <td>DRV</td>
+                            <th class="text-center">
+                                <a href="#">
+                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#userdetails"></i>
+                                </a>
+
+                            </th>
+                        </tr>
+
+                    </tbody>
+                </table>
             </div>
         </div>
 
 
-        <!-- User Sessions Bounce -->
-        <div class="row">
-            <div class="col-xl-4">
-
-                <!-- User -->
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Users</h2>
+        <div class="modal fade" id="userdetails" tabindex="-1" role="dialog" aria-labelledby="userdetails"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle2">User role update</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="card-body">
-                        <div class="bg-primary d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white">325,980</span>
-                                <span>vs 275,900 (prev)</span>
-                            </div>
-                            <div>
-                                <span>45%</span>
-                                <i class="mdi mdi-arrow-up-bold"></i>
-                            </div>
-                        </div>
-                        <div id="line-chart-1"></div>
-                    </div>
-                </div>
+                    <div class="modal-body">
 
-            </div>
-            <div class="col-xl-4">
+                        <!-- Bordered Table -->
+                        <div class="card card-default">
 
-                <!-- Session -->
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Sessions</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="bg-success d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white">7,833</span>
-                                <span>vs 7,012 (prev)</span>
-                            </div>
-                            <div>
-                                <span>55%</span>
-                                <i class="mdi mdi-arrow-up-bold"></i>
-                            </div>
-                        </div>
-                        <div id="line-chart-2"></div>
-                    </div>
-                </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="validationServer01">Names</label>
+                                            <input type="text" class="form-control border-success"
+                                                id="validationServer01" placeholder="User full names"
+                                                value="Kalinda Vital" disabled>
 
-            </div>
-            <div class="col-xl-4">
+                                        </div>
 
-                <!-- Bounce Rate -->
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Bounce Rate</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="bg-danger d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white">67.0%</span>
-                                <span>vs 65.21% (prev)</span>
-                            </div>
-                            <div>
-                                <span>7%</span>
-                                <i class="mdi mdi-arrow-down-bold"></i>
-                            </div>
-                        </div>
-                        <div id="line-chart-3"></div>
-                    </div>
-                </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="validationServer02">Email</label>
+                                            <input type="text" class="form-control border-info"
+                                                id="validationServer02" placeholder="Email" value="kalinda@gmail.com"
+                                                disabled>
 
-            </div>
-        </div>
+                                        </div>
 
-        <div class="row">
-            <div class="col-xl-6">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="validationServer02">Phone number</label>
+                                            <input type="text" class="form-control border-info"
+                                                id="validationServer02" placeholder="Phone number" value="123456789"
+                                                disabled>
 
-                <!-- User Acquisition Statistics -->
-                <div class="card card-default" id="user-acquisition">
-                    <div class="card-header border-bottom pb-0">
-                        <h2>User Acquisition</h2>
-                        <ul class="nav nav-underline-active-primary" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#traffic-channel" role="tab"
-                                    aria-selected="true">Traffic
-                                    Channel</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#source-medium" role="tab"
-                                    aria-selected="false">Source / Medium </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#referrals" role="tab"
-                                    aria-selected="false">Referrals</a>
-                            </li>
-                        </ul>
-                    </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect12">Role</label>
+                                                <select class="form-control" id="exampleFormControlSelect12">
+                                                    <option>Warehouse manager</option>
+                                                    <option>Shipping manager</option>
+                                                    <option>Overlord</option>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                    <div class="tab-content" id="myTabContent">
-                        <div id="barchartlg1"></div>
-                    </div>
-                    <div class="card-footer d-flex flex-wrap bg-white">
-                        <a href="#" class="text-uppercase py-3">Acquisition Report</a>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Sessions by Device -->
-            <div class="col-xl-6">
-
-                <!-- Sessions By Device -->
-                <div class="card card-default">
-                    <div class="card-header border-bottom">
-                        <h2 class="mdi mdi-desktop-mac">Sessions by Device</h2>
-                    </div>
-                    <div class="card-body pt-6">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div id="donut-chart-1"></div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="media mb-4">
-                                    <i class="display-4 mdi mdi-remote-desktop text-primary mr-3"></i>
-                                    <div class="media-body">
-                                        <p>Desktop</p>
-                                        <p class="h4 my-1 text-dark">45% <span class="text-success">23.5% <i
-                                                    class="mdi mdi-arrow-up-bold small"></i></span>
-                                        </p>
-                                        <p>vs 155,900 (prev)</p>
                                     </div>
-                                </div>
-
-                                <div class="media mb-4">
-                                    <i class="display-4 mdi mdi-tablet-android text-primary mr-3"></i>
-                                    <div class="media-body">
-                                        <p>Tablet</p>
-                                        <p class="h4 my-1 text-dark">30% <span class="text-success">13.5% <i
-                                                    class="mdi mdi-arrow-up-bold small"></i></span>
-                                        </p>
-                                        <p>vs 187,900 (prev)</p>
-                                    </div>
-                                </div>
-
-                                <div class="media mb-4">
-                                    <i class="display-4 mdi mdi-cellphone-iphone text-primary mr-3"></i>
-                                    <div class="media-body">
-                                        <p>Mobile</p>
-                                        <p class="h4 my-1 text-dark">25% <span class="text-success">35.5% <i
-                                                    class="mdi mdi-arrow-up-bold small"></i></span>
-                                        </p>
-                                        <p>vs 309,900 (prev)</p>
-                                    </div>
-                                </div>
+                                    <button class="btn btn-primary btn-pill mr-2" type="submit">Submit</button>
+                                    <button class="btn btn-light btn-pill" type="submit">Cancel</button>
+                                </form>
                             </div>
+
                         </div>
-                    </div>
-                </div>
 
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-xl-4">
-
-                <!-- Us Vector Map -->
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>User Map</h2>
                     </div>
-                    <div class="card-body">
-                        <div id="us-vector-map-marker"></div>
-                        <ul class="list-unstyled mt-4">
-                            <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
-                                Oregon
-                                <span class="text-primary">35</span>
-                            </li>
-                            <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
-                                Indiana
-                                <span class="text-success">10</span>
-                            </li>
-                            <li class="d-flex flex-wrap justify-content-between border-top py-2 text-dark">
-                                Colorado
-                                <span class="text-danger">25</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-xl-4">
-
-                <!-- Page Views  -->
-                <div class="card card-default" id="page-views">
-                    <div class="card-header">
-                        <h2>Page Views</h2>
-                    </div>
-                    <div class="card-body py-0" data-simplebar style="height: 392px;">
-                        <table class="table table-borderless table-thead-border">
-                            <thead>
-                                <tr>
-                                    <th>Page</th>
-                                    <th class="text-right px-3">Page Views</th>
-                                    <th class="text-right">Avg Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-primary"><a class="link" href="analytics.html">/analytics.html</a>
-                                    </td>
-                                    <td class="text-right px-3">521</td>
-                                    <td class="text-right">2m:14s</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-primary"><a class="link"
-                                            href="email-inbox.html">/email-inbox.html</a></td>
-                                    <td class="text-right px-3">356</td>
-                                    <td class="text-right">2m:23s</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-primary"><a class="link"
-                                            href="email-compose.html">/email-compose.html</a></td>
-                                    <td class="text-right px-3">254</td>
-                                    <td class="text-right">2m:2s</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-primary"><a class="link"
-                                            href="charts-chartjs.html">/charts-chartjs.html</a></td>
-                                    <td class="text-right px-3">126</td>
-                                    <td class="text-right">1m:15s</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-primary"><a class="link" href="profile.html">/profile.html</a></td>
-                                    <td class="text-right px-3">50</td>
-                                    <td class="text-right">1m:7s</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-primary"><a class="link"
-                                            href="general-widgets.html">/general-widgets.html</a></td>
-                                    <td class="text-right px-3">50</td>
-                                    <td class="text-right">2m:35s</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-primary"><a class="link" href="card.html">/card.html</a></td>
-                                    <td class="text-right px-3">590</td>
-                                    <td class="text-right">5m:55s</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-primary"><a class="link"
-                                            href="email-inbox.html">/email-inbox.html</a></td>
-                                    <td class="text-right px-3">29</td>
-                                    <td class="text-right">8m:5s</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer bg-white py-4">
-                        <a href="#" class="text-uppercase">Audience Overview</a>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-xl-4">
-                <!-- Current Users  -->
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Current Users</h2>
-                        <span>Realtime</span>
-                    </div>
-                    <div class="card-body">
-                        <div id="barchartlg2"></div>
-                    </div>
-                    <div class="card-footer bg-white py-4">
-                        <a href="#" class="text-uppercase">Current Users Overview</a>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-pill" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-@endsection
+        @endsection

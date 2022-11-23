@@ -5,14 +5,14 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                    ===================================== -->
+                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                            ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
             <div class="app-brand">
                 <a href="/">
-                    <img src="{{ asset('images/logo.png') }}" alt="Mono">
+                    <img src="{{ asset('images/logo-new-small.png') }}" alt="Mono">
                     <span class="brand-name">STCK-MGT</span>
                 </a>
             </div>
@@ -100,7 +100,7 @@
                             <div class="sub-menu">
 
                                 <li>
-                                    <a class="sidenav-item-link" href="email-inbox.html">
+                                    <a class="sidenav-item-link" href="/orders">
                                         <span class="nav-text">All orders</span>
 
                                     </a>
@@ -120,14 +120,21 @@
                             <div class="sub-menu">
 
                                 <li>
-                                    <a class="sidenav-item-link" href="email-inbox.html">
+                                    <a class="sidenav-item-link" href="/jobs">
                                         <span class="nav-text">All jobs</span>
 
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="sidenav-item-link" href="email-details.html">
+                                    <a class="sidenav-item-link" href="/jobs/drivers">
+                                        <span class="nav-text">All drivers</span>
+
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="sidenav-item-link" href="/jobs/add_drivers">
                                         <span class="nav-text">Add drivers</span>
 
                                     </a>
@@ -149,14 +156,14 @@
                             <div class="sub-menu">
 
                                 <li>
-                                    <a class="sidenav-item-link" href="email-inbox.html">
+                                    <a class="sidenav-item-link" href="/categories">
                                         <span class="nav-text">All categories</span>
 
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="sidenav-item-link" href="email-details.html">
+                                    <a class="sidenav-item-link" href=".categories/add_categories">
                                         <span class="nav-text">Add category</span>
 
                                     </a>
@@ -169,7 +176,7 @@
 
 
                     <li class="section-title">
-                        Admin actions
+                        Advanced actions
                     </li>
 
                     <li class="has-sub">
@@ -182,21 +189,21 @@
                             <div class="sub-menu">
 
                                 <li>
-                                    <a class="sidenav-item-link" href="email-inbox.html">
+                                    <a class="sidenav-item-link" href="/users">
                                         <span class="nav-text">All users</span>
 
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="sidenav-item-link" href="email-details.html">
+                                    <a class="sidenav-item-link" href="/users/register_admins">
                                         <span class="nav-text">Add admins</span>
 
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a class="sidenav-item-link" href="email-details.html">
+                                    <a class="sidenav-item-link" href="/users/authority">
                                         <span class="nav-text">User authority</span>
 
                                     </a>
@@ -216,9 +223,8 @@
 
 @endsection
 
-@section('content')
-
-    <!-- Header -->
+<!-- Header -->
+@section('header')
     <header class="main-header" id="header">
         <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
             <!-- Sidebar toggle button -->
@@ -234,8 +240,8 @@
                 <div class="search-form">
                     <form action="index.html" method="get">
                         <div class="input-group input-group-sm" id="input-group-search">
-                            <input type="text" autocomplete="off" name="query" id="search-input" class="form-control"
-                                placeholder="Search..." />
+                            <input type="text" autocomplete="off" name="query" id="search-input"
+                                class="form-control" placeholder="Search..." />
                             <div class="input-group-append">
                                 <button class="btn" type="button">/</button>
                             </div>
@@ -262,12 +268,7 @@
 
                 <ul class="nav navbar-nav">
                     <!-- Offcanvas -->
-                    <li class="custom-dropdown">
-                        <a class="offcanvas-toggler active custom-dropdown-toggler" data-offcanvas="contact-off"
-                            href="javascript:">
-                            <i class="mdi mdi-contacts icon"></i>
-                        </a>
-                    </li>
+
                     <li class="custom-dropdown">
                         <button class="notify-toggler custom-dropdown-toggler">
                             <i class="mdi mdi-bell-outline icon"></i>
@@ -297,7 +298,8 @@
                                         <div class="media media-sm bg-warning-10 p-4 mb-0">
                                             <div class="media-sm-wrapper">
                                                 <a href="user-profile.html">
-                                                    <img src="images/user/user-sm-02.jpg" alt="User Image">
+                                                    <img src="{{ asset('images/user/user-sm-02.jpg') }}"
+                                                        alt="User Image">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -335,7 +337,8 @@
                                         <div class="media media-sm p-4 mb-0">
                                             <div class="media-sm-wrapper">
                                                 <a href="user-profile.html">
-                                                    <img src="images/user/user-sm-03.jpg" alt="User Image">
+                                                    <img src="{{ asset('images/user/user-sm-03.jpg') }}"
+                                                        alt="User Image">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -399,7 +402,8 @@
                                         <div class="media media-sm p-4 mb-0">
                                             <div class="media-sm-wrapper">
                                                 <a href="user-profile.html">
-                                                    <img src="images/user/user-sm-01.jpg" alt="User Image">
+                                                    <img src="{{ asset('images/user/user-sm-01.jpg') }}"
+                                                        alt="User Image">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -417,7 +421,8 @@
                                         <div class="media media-sm p-4 mb-0">
                                             <div class="media-sm-wrapper">
                                                 <a href="user-profile.html">
-                                                    <img src="images/user/user-sm-03.jpg" alt="User Image">
+                                                    <img src="{{ asset('images/user/user-sm-03.jpg') }}"
+                                                        alt="User Image">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -436,7 +441,8 @@
                                         <div class="media media-sm bg-warning-10 p-4 mb-0">
                                             <div class="media-sm-wrapper">
                                                 <a href="user-profile.html">
-                                                    <img src="images/user/user-sm-02.jpg" alt="User Image">
+                                                    <img src="{{ asset('images/user/user-sm-02.jpg') }}"
+                                                        alt="User Image">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -456,7 +462,8 @@
                                         <div class="media media-sm p-4 mb-0">
                                             <div class="media-sm-wrapper">
                                                 <a href="user-profile.html">
-                                                    <img src="images/user/user-sm-04.jpg" alt="User Image">
+                                                    <img src="{{ asset('images/user/user-sm-04.jpg') }}"
+                                                        alt="User Image">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -548,7 +555,8 @@
                     <!-- User Account -->
                     <li class="dropdown user-menu">
                         <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle" alt="User Image" />
+                            <img src="{{ asset('images/user/user-xs-01.jpg') }}" class="user-image rounded-circle"
+                                alt="User Image" />
                             <span class="d-none d-lg-inline-block">John Doe</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -590,6 +598,9 @@
 
 
     </header>
+@endsection
+
+@section('content')
 
     <div class="content">
 
@@ -598,120 +609,11 @@
             <div class="card-header">
                 <h2>All products</h2>
 
-                <a class="btn mdi mdi-code-tags" data-toggle="collapse" href="#collapse-table-bordered" role="button"
-                    aria-expanded="false" aria-controls="collapse-table-bordered"> </a>
-
 
             </div>
             <div class="card-body">
                 <div class="collapse" id="collapse-table-bordered">
-                    <pre class="language-html mb-4">
-  <code >
-  &lt;table class="table table-bordered">
-    &lt;thead>
-      &lt;tr>
-        &lt;th scope="col">#&lt;/th>
-        &lt;th scope="col">First&lt;/th>
-        &lt;th scope="col">Last&lt;/th>
-        &lt;th scope="col">Handle&lt;/th>
-        &lt;th class="text-center">Action&lt;/th>
-      &lt;/tr>
-    &lt;/thead>
-    &lt;tbody>
-      &lt;tr>
-        &lt;td scope="row">1&lt;/td>
-        &lt;td>Lucia&lt;/td>
-        &lt;td>Christ&lt;/td>
-        &lt;td>@Lucia&lt;/td>
-        &lt;th class="text-center">
-          &lt;a href="#">
-            &lt;i class="mdi mdi-open-in-new">&lt;/i>
-          &lt;/a>
-          &lt;a href="#">
-            &lt;i class="mdi mdi-close text-danger">&lt;/i>
-          &lt;/a>
-  
-        &lt;/th>
-      &lt;/tr>
-      &lt;tr>
-        &lt;td scope="row">2&lt;/td>
-        &lt;td>Catrin&lt;/td>
-        &lt;td>Seidl&lt;/td>
-        &lt;td>@catrin&lt;/td>
-        &lt;th class="text-center">
-          &lt;a href="#">
-            &lt;i class="mdi mdi-open-in-new">&lt;/i>
-          &lt;/a>
-          &lt;a href="#">
-            &lt;i class="mdi mdi-close text-danger">&lt;/i>
-          &lt;/a>
-  
-        &lt;/th>
-      &lt;/tr>
-      &lt;tr>
-        &lt;td scope="row">3&lt;/td>
-        &lt;td>Lilli&lt;/td>
-        &lt;td>Kirsh&lt;/td>
-        &lt;td>@lilli&lt;/td>
-        &lt;th class="text-center">
-          &lt;a href="#">
-            &lt;i class="mdi mdi-open-in-new">&lt;/i>
-          &lt;/a>
-          &lt;a href="#">
-            &lt;i class="mdi mdi-close text-danger">&lt;/i>
-          &lt;/a>
-  
-        &lt;/th>
-      &lt;/tr>
-      &lt;tr>
-        &lt;td scope="row">4&lt;/td>
-        &lt;td>Else&lt;/td>
-        &lt;td>Voigt&lt;/td>
-        &lt;td>@voigt&lt;/td>
-        &lt;th class="text-center">
-          &lt;a href="#">
-            &lt;i class="mdi mdi-open-in-new">&lt;/i>
-          &lt;/a>
-          &lt;a href="#">
-            &lt;i class="mdi mdi-close text-danger">&lt;/i>
-          &lt;/a>
-  
-        &lt;/th>
-      &lt;/tr>
-      &lt;tr>
-        &lt;td scope="row">5&lt;/td>
-        &lt;td>Ursel&lt;/td>
-        &lt;td>Harms&lt;/td>
-        &lt;td>@ursel&lt;/td>
-        &lt;th class="text-center">
-          &lt;a href="#">
-            &lt;i class="mdi mdi-open-in-new">&lt;/i>
-          &lt;/a>
-          &lt;a href="#">
-            &lt;i class="mdi mdi-close text-danger">&lt;/i>
-          &lt;/a>
-  
-        &lt;/th>
-      &lt;/tr>
-      &lt;tr>
-        &lt;td scope="row">6&lt;/td>
-        &lt;td>Anke&lt;/td>
-        &lt;td>Sauter&lt;/td>
-        &lt;td>@Anke&lt;/td>
-        &lt;th class="text-center">
-          &lt;a href="#">
-            &lt;i class="mdi mdi-open-in-new">&lt;/i>
-          &lt;/a>
-          &lt;a href="#">
-            &lt;i class="mdi mdi-close text-danger">&lt;/i>
-          &lt;/a>
-  
-        &lt;/th>
-      &lt;/tr>
-    &lt;/tbody>
-  &lt;/table>
-  </code>
-            </pre>
+
                 </div>
                 <table class="table table-bordered">
                     <thead>
