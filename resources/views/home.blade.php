@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                    ===================================== -->
+                                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                            ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -586,7 +586,13 @@
                             </li>
 
                             <li class="dropdown-footer">
-                                <a class="dropdown-link-item" href="sign-in.html"> <i class="mdi mdi-logout"></i>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                                <a class="dropdown-link-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();document.getElementById('logout-form').submit();"> <i
+                                        class="mdi mdi-logout"></i>
                                     Log Out
                                 </a>
                             </li>
@@ -602,11 +608,6 @@
 
 @section('content')
 
-
-
-    <!-- ====================================
-                                    ——— CONTENT WRAPPER
-                                    ===================================== -->
     <div class="content">
         <!-- Top Statistics -->
         <div class="row">

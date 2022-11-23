@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -117,30 +118,57 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
+        $is_api_request = $request->route()->getPrefix() === 'api';
+
         $user = User::where('email', $fields['email'])->first();
         if (!$user || !Hash::check($fields['password'], $user->password)) {
-            return [
-                'message' => 'invalid credentials'
-            ];
+
+            if ($is_api_request) {
+                return [
+                    'message' => 'invalid credentials'
+                ];
+            } else {
+                return back()->withErrors([
+                    'message' => 'The provided credentials do not match our records.'
+                ]);
+            }
         }
 
-        $token = $user->createToken('myapptoken')->plainTextToken;
+        if ($is_api_request) {
 
-        return [
-            'message' => 'user logged in',
-            'token' => $token,
-            'user' => $user
-        ];
+            $token = $user->createToken('myapptoken')->plainTextToken;
+
+            return [
+                'message' => 'user logged in',
+                'token' => $token,
+                'user' => $user
+            ];
+        } else {
+            $request->session()->regenerate();
+            Auth::login($user);
+            return redirect()->intended('/');
+        }
     }
     public function logout(Request $request)
     {
         $user = User::find(auth()->user()->id);
+        $is_api_request = $request->route()->getPrefix() === 'api';
 
-        if ($user->can('user:logout')) {
-            $request->user()->currentAccessToken()->delete();
-            return ['message' => 'user logged out'];
+        if ($is_api_request) {
+            if ($user->can('user:logout')) {
+                $request->user()->currentAccessToken()->delete();
+                return ['message' => 'user logged out'];
+            } else {
+                return ['message' => 'unauthorised'];
+            }
         } else {
-            return ['message' => 'unauthorised'];
+            Auth::logout();
+
+            $request->session()->invalidate();
+
+            $request->session()->regenerateToken();
+
+            return redirect('/login');
         }
     }
 }
