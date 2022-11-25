@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [UserController::class, 'login'])->name('user.login');
-Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-
-
 Route::get('/login', function () {
     return view('login');
 })->name('login');
@@ -26,22 +25,29 @@ Route::get('/signup', function () {
     return view('signup');
 });
 
+Route::post('/login', [UserController::class, 'login'])->name('user.login');
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+Route::post('/signup', [UserController::class, 'register'])->name('user.signup');
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/', function () {
-        return view('home');
-    });
+
+    Route::get('/', [HomeController::class, 'index']);
+
+    Route::get('/products', [ProductController::class, 'index'])->name('products');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.add');
+    Route::get('/products/add', [ProductController::class, 'add_product']);
+
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.add');
+    Route::get('/categories/add_categories', [CategoryController::class, 'category_add']);
+
+    Route::get('/users', [UserController::class, 'index']);
+
 
     Route::get('/analytics', function () {
         return view('analytics');
-    });
-
-    Route::get('/products', function () {
-        return view('products.products');
-    });
-
-    Route::get('/products/add', function () {
-        return view('products.add_products');
     });
 
     Route::get('/orders', function () {
@@ -60,17 +66,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('shipping.add_drivers');
     });
 
-    Route::get('/categories', function () {
-        return view('categories.categories');
-    });
-
-    Route::get('/categories/add_categories', function () {
-        return view('categories.add_categories');
-    });
-
-    Route::get('/users', function () {
-        return view('users.users');
-    });
 
     Route::get('/users/register_admins', function () {
         return view('users.add_admin');

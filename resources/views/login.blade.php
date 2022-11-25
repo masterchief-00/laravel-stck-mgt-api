@@ -85,17 +85,24 @@
                         <div class="card-body px-5 pb-5 pt-10">
 
                             <h4 class="text-dark mb-6 text-center">Log in</h4>
-                            @if (session('message'))
+                            
+                            @if ($errors->any())
                                 <div class="mb-4 font-medium text-sm text-green-600">
-                                    {{ session('message') }}
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li class="alert alert-danger">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             @endif
+
                             <form action="{{ route('user.login') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="email" name="email" class="form-control input-lg"
-                                            id="email" aria-describedby="emailHelp" placeholder="email">
+                                        <input type="email" name="email" value="{{ old('email') }}"
+                                            class="form-control input-lg" id="email" aria-describedby="emailHelp"
+                                            placeholder="email">
                                     </div>
                                     <div class="form-group col-md-12 ">
                                         <input type="password" name="password" class="form-control input-lg"

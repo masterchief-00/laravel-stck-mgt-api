@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 class ProductController extends Controller
 {
@@ -14,15 +16,31 @@ class ProductController extends Controller
         $this->middleware(['role:ADM|WHS|USR']);
     }
 
-    /**list all products */
-    public function index()
+    /**render add products page */
+    public function add_product(Request $request)
     {
-        return Product::all();
+        $categories = Category::all();
+
+        return view('products.add_products', compact('categories'));
+    }
+
+    /**list all products */
+    public function index(Request $request)
+    {
+        $is_api_request =  $request->route()->getPrefix() === 'api';
+
+        if ($is_api_request) {
+            return Product::all();
+        } else {
+            $products = Product::all();
+            return view('products.products', compact('products'));
+        }
     }
 
     /**create new product */
     public function store(Request $request)
     {
+
         $fields = $request->validate([
             'name' => 'required|string',
             'SKU' => 'required|unique:products,SKU',
@@ -30,8 +48,13 @@ class ProductController extends Controller
             'quantity' => 'required',
             'exp_date' => 'required',
             'arriv_date' => 'required',
-            'unit_price' => 'required'
+            'unit_price' => 'required',
+            'image' => 'image|nullable'
         ]);
+
+        $is_api_request =  $request->route()->getPrefix() === 'api';
+
+
         if ($request->user()->can('product:register')) {
             $product = Product::create([
                 'name' => $fields['name'],
@@ -43,12 +66,20 @@ class ProductController extends Controller
                 'unit_price' => $fields['unit_price'],
             ]);
 
-            return [
-                'message' => 'product added',
-                'product' => $product
-            ];
+            if ($is_api_request) {
+                return [
+                    'message' => 'product added',
+                    'product' => $product
+                ];
+            } else {
+                return redirect()->back()->with('message', 'Product added!');
+            }
         } else {
-            return ['message' => 'unauthorised for this action'];
+            if ($is_api_request) {
+                return ['message' => 'unauthorised for this action'];
+            } else {
+                return redirect()->back()->with('message', 'Unauthorised for that action');
+            }
         }
     }
 

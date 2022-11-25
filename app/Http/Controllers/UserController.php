@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function index(Request $request)
+    {
+        $users = User::all();
+
+        return view('users.users', compact('users'));
+    }
     /**
      * user registration
      */
@@ -21,26 +27,33 @@ class UserController extends Controller
             'phone' => 'required|unique:users,phone',
             'user_type' => 'nullable',
             'image' => 'image|mimes:jpeg,jpg,png|nullable',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8|confirmed'
         ]);
+        $is_api_request = $request->route()->getPrefix() === 'api';
+
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
             'ID_NO' => $fields['ID_NO'],
             'phone' => $fields['phone'],
             'user_type' => 'USR',
-            'image' => $fields['image'],
             'password' => Hash::make($fields['password'])
         ]);
         $user->assignRole('USR');
 
-        $token = $user->createToken('myapptoken')->plainTextToken;
+        if ($is_api_request) {
+            $token = $user->createToken('myapptoken')->plainTextToken;
 
-        return [
-            'message' => 'user registered',
-            'user' => $user,
-            'token' => $token
-        ];
+            return [
+                'message' => 'user registered',
+                'user' => $user,
+                'token' => $token
+            ];
+        } else {
+            $request->session()->regenerate();
+            Auth::login($user);
+            return redirect()->intended('/');
+        }
     }
     /**
      * admin registration...for testing purposes

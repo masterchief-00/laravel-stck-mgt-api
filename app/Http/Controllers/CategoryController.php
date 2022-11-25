@@ -12,10 +12,22 @@ class CategoryController extends Controller
     {
         $this->middleware(['role:ADM|WHS|USR']);
     }
-    /**list all categories */
-    public function index()
+
+    public function category_add()
     {
-        return Category::all();
+        return view('categories.add_categories');
+    }
+    /**list all categories */
+    public function index(Request $request)
+    {
+        $is_api_request =  $request->route()->getPrefix() === 'api';
+
+        if ($is_api_request) {
+            return Category::all();
+        } else {
+            $categories = Category::all();
+            return view('categories.categories', compact('categories'));
+        }
     }
 
     /**create new category */
@@ -24,18 +36,27 @@ class CategoryController extends Controller
         $fields = $request->validate([
             'name' => 'required|string|unique:categories,name',
         ]);
+        $is_api_request =  $request->route()->getPrefix() === 'api';
 
         if ($request->user()->can('category:register')) {
             $category = Category::create([
                 'name' => $fields['name']
             ]);
 
-            return [
-                'message' => 'category added',
-                'category' => $category
-            ];
+            if ($is_api_request) {
+                return [
+                    'message' => 'category added',
+                    'category' => $category
+                ];
+            } else {
+                return redirect()->back()->with('message', 'Category added!');
+            }
         } else {
-            return ['message' => 'unauthorised for this action'];
+            if ($is_api_request) {
+                return ['message' => 'unauthorised for this action'];
+            } else {
+                return redirect()->back()->with('message', 'Not authorised for this');
+            }
         }
     }
 

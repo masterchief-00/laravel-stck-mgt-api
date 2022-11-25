@@ -86,30 +86,40 @@
                         </div>
                         <div class="card-body px-5 pb-5 pt-0">
                             <h4 class="text-dark text-center mb-5">Sign Up</h4>
-                            <form action="/index.html">
+                            @if ($errors->any())
+                                <div class="mb-4 font-medium text-sm text-green-600">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li class="alert alert-danger">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <form action="{{ route('user.signup') }}" method="POST">
+                                @csrf
                                 <div class="row">
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="text" class="form-control input-lg" id="name"
+                                        <input type="text" name="name" class="form-control input-lg" id="name"
                                             aria-describedby="nameHelp" placeholder="Names">
                                     </div>
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="email" class="form-control input-lg" id="email"
+                                        <input type="email" name="email" class="form-control input-lg" id="email"
                                             aria-describedby="emailHelp" placeholder="Email">
                                     </div>
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="text" class="form-control input-lg" id="phone"
+                                        <input type="text" name="phone" class="form-control input-lg" id="phone"
                                             aria-describedby="phoneHelp" placeholder="Phone number">
                                     </div>
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="text" class="form-control input-lg" id="id_no"
+                                        <input type="text" name="ID_NO" class="form-control input-lg" id="id_no"
                                             aria-describedby="idHelp" placeholder="ID card Number">
                                     </div>
                                     <div class="form-group col-md-12 ">
-                                        <input type="password" class="form-control input-lg" id="password"
+                                        <input type="password" name="password" class="form-control input-lg" id="password"
                                             placeholder="Password">
                                     </div>
                                     <div class="form-group col-md-12 ">
-                                        <input type="password" class="form-control input-lg" id="cpassword"
+                                        <input type="password" name="password_confirmation" class="form-control input-lg" id="cpassword"
                                             placeholder="Confirm Password">
                                     </div>
                                     <div class="col-md-12">
