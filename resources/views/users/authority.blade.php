@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                    ===================================== -->
+                                                                                                                                                                                                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                                                                ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -230,10 +230,12 @@
                 <h2>Find user</h2>
             </div>
             <div class="card-body">
-                <form>
+                <form action="{{ route('user.search') }}" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for="exampleFormControlInput3">Search user</label>
-                        <input type="text" class="form-control rounded-pill" id="exampleFormControlInput3"
+                        <input type="text" name="query" value="{{ old('query') }}"
+                            class="form-control rounded-pill" id="exampleFormControlInput3"
                             placeholder="Search by email or user names">
                     </div>
 
@@ -243,155 +245,57 @@
                 </form>
             </div>
         </div>
-        <div class="card card-default">
-            <div class="card-header">
-                <h2>Results</h2>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Identity card</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone number</th>
-                            <th scope="col">Role</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row">1</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td>USR</td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#userdetails"></i>
-                                </a>
+        @if (Session::has('results'))
+            <?php $results = Session::get('results'); ?>
+            <div class="card card-default">
+                <div class="card-header">
+                    <h2>Results</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Names</th>
+                                <th scope="col">Identity card</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone number</th>
+                                <th scope="col">Role</th>
+                                <th class="text-center">Update role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($results as $result)
+                                <tr>
+                                    <td scope="row">1</td>
+                                    <td>{{ $result->name }}</td>
+                                    <td>{{ $result->ID_NO }}</td>
+                                    <td>{{ $result->email }}</td>
+                                    <td>{{ $result->phone }}</td>
+                                    <td>{{ $result->user_type }}</td>
+                                    <th class="text-center" colspan="2">
+                                        <form action="{{ route('role.update') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="email" value="{{ $result->email }}" />
+                                            <select class="form-control" id="exampleFormControlSelect12"
+                                                name="user_type">
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role->name }}">
+                                                        {{ $role->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-primary">Done</button>
+                                        </form>
 
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">2</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td>WHS</td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#userdetails"></i>
-                                </a>
-
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">3</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td>DLV</td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#userdetails"></i>
-                                </a>
-
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">4</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td>DRV</td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#userdetails"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-        <div class="modal fade" id="userdetails" tabindex="-1" role="dialog" aria-labelledby="userdetails"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle2">User role update</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <!-- Bordered Table -->
-                        <div class="card card-default">
-
-                            <div class="card-body">
-                                <form>
-                                    <div class="form-row">
-                                        <div class="col-md-12 mb-3">
-                                            <label for="validationServer01">Names</label>
-                                            <input type="text" class="form-control border-success"
-                                                id="validationServer01" placeholder="User full names"
-                                                value="Kalinda Vital" disabled>
-
-                                        </div>
-
-                                        <div class="col-md-12 mb-3">
-                                            <label for="validationServer02">Email</label>
-                                            <input type="text" class="form-control border-info"
-                                                id="validationServer02" placeholder="Email" value="kalinda@gmail.com"
-                                                disabled>
-
-                                        </div>
-
-                                        <div class="col-md-12 mb-3">
-                                            <label for="validationServer02">Phone number</label>
-                                            <input type="text" class="form-control border-info"
-                                                id="validationServer02" placeholder="Phone number" value="123456789"
-                                                disabled>
-
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <div class="form-group">
-                                                <label for="exampleFormControlSelect12">Role</label>
-                                                <select class="form-control" id="exampleFormControlSelect12">
-                                                    <option>Warehouse manager</option>
-                                                    <option>Shipping manager</option>
-                                                    <option>Overlord</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <button class="btn btn-primary btn-pill mr-2" type="submit">Submit</button>
-                                    <button class="btn btn-light btn-pill" type="submit">Cancel</button>
-                                </form>
-                            </div>
-
-                        </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-pill" data-dismiss="modal">Close</button>
-                    </div>
+                                    </th>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        @endsection
+        @endif
+
+
+    @endsection

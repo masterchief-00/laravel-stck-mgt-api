@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -14,6 +15,19 @@ class UserController extends Controller
         $users = User::all();
 
         return view('users.users', compact('users'));
+    }
+
+    public function admin_add()
+    {
+        $roles = Role::all();
+
+        return view('users.add_admin', compact('roles'));
+    }
+    public function role_new()
+    {
+        $roles = Role::all();
+
+        return view('users.authority', compact('roles'));
     }
     /**
      * user registration
@@ -65,41 +79,61 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'ID_NO' => 'required|unique:users,ID_NO',
             'phone' => 'required|unique:users,phone',
-            'user_type' => 'nullable',
+            'user_type' => 'required',
             'image' => 'image|mimes:jpeg,jpg,png|nullable',
-            'password' => 'required|min:8'
         ]);
-        $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'ID_NO' => $fields['ID_NO'],
-            'phone' => $fields['phone'],
-            'user_type' => 'ADM',
-            'image' => $fields['image'],
-            'password' => Hash::make($fields['password'])
-        ]);
-        $user->assignRole('ADM');
 
-        $token = $user->createToken('myapptoken')->plainTextToken;
+        $is_api_request = $request->route()->getPrefix() === 'api';
 
-        return [
-            'message' => 'admin registered',
-            'user' => $user,
-            'token' => $token
-        ];
+        if ($request->user()->hasRole('ADM')) {
+            $user = User::create([
+                'name' => $fields['name'],
+                'email' => $fields['email'],
+                'ID_NO' => $fields['ID_NO'],
+                'phone' => $fields['phone'],
+                'user_type' => $fields['user_type'],
+                'image' => $fields['image'],
+                'password' => Hash::make('12345678')
+            ]);
+            $user->assignRole($fields['user_type']);
+
+            if ($is_api_request) {
+                $token = $user->createToken('myapptoken')->plainTextToken;
+
+                return [
+                    'message' => 'admin registered',
+                    'user' => $user,
+                    'token' => $token
+                ];
+            } else {
+                return redirect()->back()->with('message', 'User registered');
+            }
+        } else {
+            if ($is_api_request) {
+                return [
+                    'message' => 'Unauthorised for this action',
+
+                ];
+            } else {
+                return redirect()->back()->with('message', 'Not authorised for this action');
+            }
+        }
     }
     /**
      * User update
      */
-    public function update_role(Request $request, $email)
+    public function update_role(Request $request, $email = null)
     {
         $fields = $request->validate([
             'user_type' => 'required|string',
+            'email' => 'nullable'
         ]);
+        $is_api_request = $request->route()->getPrefix() === 'api';
         $current_user = User::find(auth()->user()->id);
 
+
         if ($current_user->hasRole('ADM')) {
-            $user = User::where('email', $email)->first();
+            $user = User::where('email', $is_api_request ? $email : $fields['email'])->first();
 
             if ($user) {
                 $user->removeRole($user->roles->first());
@@ -107,18 +141,33 @@ class UserController extends Controller
                 $user->user_type = $fields['user_type'];
                 $user->update();
 
-                return [
-                    'message' => 'user role updated',
-                    'user' => $user
-                ];
+                if ($is_api_request) {
+                    return [
+                        'message' => 'user role updated',
+                        'user' => $user
+                    ];
+                } else {
+                    return back()->with('message', 'user role updated');
+                }
             } else {
-                return [
-                    'message' => 'user not found',
-                    'user' => null
-                ];
+
+                if ($is_api_request) {
+                    return [
+                        'message' => 'user not found',
+                        'user' => null
+                    ];
+                } else {
+                    return back()->withErrors(
+                        ['message' => 'The provided credentials do not match our records.']
+                    );
+                }
             }
         } else {
-            return ['message', 'unauthorised for this action'];
+            if ($is_api_request) {
+                return ['message', 'unauthorised for this action'];
+            } else {
+                return back()->withErrors(['message' => 'unauthorised for this action']);
+            }
         }
     }
 
@@ -183,5 +232,17 @@ class UserController extends Controller
 
             return redirect('/login');
         }
+    }
+
+    public function show(Request $request)
+    {
+        $fields = $request->validate([
+            'query' => 'required|string'
+        ]);
+
+        $results = User::where('name', 'like', $fields['query'] . '%')
+            ->orWhere('email', 'like', $fields['query'] . '%')->get();
+
+        return redirect()->route('authority.render')->with(['results' => $results]);
     }
 }

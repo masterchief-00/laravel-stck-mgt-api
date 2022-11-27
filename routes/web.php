@@ -44,6 +44,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/categories/add_categories', [CategoryController::class, 'category_add']);
 
     Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/register_admins', [UserController::class, 'admin_add']);
+    Route::post('/users/add/admin', [UserController::class, 'register_admin'])->name('admin.add');
+
+    Route::get('/users/authority', [UserController::class, 'role_new'])->name('authority.render');
+    Route::post('/authority', [UserController::class, 'update_role'])->name('role.update');
+    Route::post('/users/search', [UserController::class, 'show'])->name('user.search');
 
 
     Route::get('/analytics', function () {
@@ -64,14 +70,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/jobs/add_drivers', function () {
         return view('shipping.add_drivers');
-    });
-
-
-    Route::get('/users/register_admins', function () {
-        return view('users.add_admin');
-    });
-
-    Route::get('/users/authority', function () {
-        return view('users.authority');
     });
 });

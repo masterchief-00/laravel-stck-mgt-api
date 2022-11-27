@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Add drivers | Stock Management System')
+@section('title', 'Add admin | Stock Management System')
 
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                        ===================================== -->
+                                                                                                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                        ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -225,7 +225,11 @@
 
 @section('content')
     <div class="content">
-
+        @if (session('message'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                <label class="btn btn-success">{{ session('message') }}</label>
+            </div>
+        @endif
         <!-- Basic Examples -->
         <div class="card card-default">
             <div class="card-header">
@@ -237,65 +241,58 @@
                 <div class="collapse" id="collapse-basic-input">
 
                 </div>
-                <form>
+                <form action="{{ route('admin.add') }}" method="POST">
+                    @csrf
                     <div class="form-row">
                         <div class="col-md-12 mb-3">
                             <label for="validationServer01">Names</label>
-                            <input type="text" class="form-control border-success" id="validationServer01"
-                                placeholder="User full names" required>
-                            <div class="text-success small mt-1">
-                                Looks good!
-                            </div>
+                            <input type="text" name="name" value="{{ old('name') }}"
+                                class="form-control border-success" id="validationServer01" placeholder="User full names"
+                                required>
+
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="validationServer02">ID number</label>
-                            <input type="text" class="form-control border-info" id="validationServer02"
+                            <input type="number" name="ID_NO" value="{{ old('ID_NO') }}"
+                                class="form-control border-info" id="validationServer02"
                                 placeholder="Identity card number" required>
-                            <div class="text-info small mt-1">
-                                We'll never share your email with anyone else.
-                            </div>
+
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="validationServer02">Email</label>
-                            <input type="text" class="form-control border-info" id="validationServer02"
-                                placeholder="Email" required>
-                            <div class="text-info small mt-1">
-                                We'll never share your email with anyone else.
-                            </div>
+                            <input type="email" name="email" value="{{ old('email') }}"
+                                class="form-control border-info" id="validationServer02" placeholder="Email" required>
+
                         </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="validationServer02">ID number</label>
-                            <input type="text" class="form-control border-info" id="validationServer02"
-                                placeholder="Identity card number" required>
-                            <div class="text-warning small mt-1">
-                                Shucks, check the formatting of that and try again.
-                            </div>
-                        </div>
+
                         <div class="col-md-12 mb-3">
                             <label for="validationServer02">Phone number</label>
-                            <input type="text" class="form-control border-info" id="validationServer02"
-                                placeholder="Phone number" required>
-                            <div class="text-warning small mt-1">
-                                Shucks, check the formatting of that and try again.
-                            </div>
+                            <input type="number" name="phone" value="{{ old('phone') }}"
+                                class="form-control border-info" id="validationServer02" placeholder="Phone number"
+                                required>
                         </div>
                         <div class="col-md-12 mb-3">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect12">Role</label>
-                                <select class="form-control" id="exampleFormControlSelect12">
-                                    <option>Warehouse manager</option>
-                                    <option>Shipping manager</option>
-                                    <option>Overlord</option>
+                                <select class="form-control" id="exampleFormControlSelect12" name="user_type">
+                                    @foreach ($roles as $role)
+                                        @if ($role->name == 'USR')
+                                            @continue
+                                        @else
+                                            <option value="{{ $role->name }}">
+                                                {{ $role->name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="image">User image</label>
-                            <input type="file" class="form-control-file" id="image">
+                            <input type="file" class="form-control-file" id="image" name="image">
                         </div>
                     </div>
                     <button class="btn btn-primary btn-pill mr-2" type="submit">Submit</button>
-                    <button class="btn btn-light btn-pill" type="submit">Cancel</button>
                 </form>
 
             </div>
