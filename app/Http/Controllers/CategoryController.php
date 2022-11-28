@@ -21,11 +21,14 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $is_api_request =  $request->route()->getPrefix() === 'api';
+        $categories = Category::all();
 
         if ($is_api_request) {
-            return Category::all();
+
+            return [
+                'categories' => $categories
+            ];
         } else {
-            $categories = Category::all();
             return view('categories.categories', compact('categories'));
         }
     }

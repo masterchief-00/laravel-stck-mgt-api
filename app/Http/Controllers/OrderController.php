@@ -14,9 +14,18 @@ class OrderController extends Controller
         $this->middleware(['role:ADM|WHS']);
     }
     /**list all orders */
-    public function index()
+    public function index(Request $request)
     {
-        return Order::all();
+        $is_api_request =  $request->route()->getPrefix() === 'api';
+        $orders = Order::all();
+
+        if ($is_api_request) {
+            return [
+                'orders' => $orders
+            ];
+        } else {
+            return view('orders.orders', compact('orders'));
+        }
     }
 
     /**create new order */

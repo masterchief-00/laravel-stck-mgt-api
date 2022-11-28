@@ -14,9 +14,16 @@ class OrderItemController extends Controller
         $this->middleware(['role:ADM|WHS']);
     }
 
-    /**list all orderItems */
-    public function index()
+    /**list all orderItems according to order id */
+    public function index(Request $request, $id)
     {
+        $is_api_request =  $request->route()->getPrefix() === 'api';
+        $orderItems = OrderItem::where('order_id', $id)->get();
+        if ($is_api_request) {
+            return [
+                'orderItems' => $orderItems
+            ];
+        }
         return OrderItem::all();
     }
 

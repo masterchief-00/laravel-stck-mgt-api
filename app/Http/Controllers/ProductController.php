@@ -30,7 +30,10 @@ class ProductController extends Controller
         $is_api_request =  $request->route()->getPrefix() === 'api';
 
         if ($is_api_request) {
-            return Product::all();
+            $products = Product::all();
+            return [
+                'products' => $products
+            ];
         } else {
             $products = Product::all();
             return view('products.products', compact('products'));

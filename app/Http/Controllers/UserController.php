@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -199,11 +200,15 @@ class UserController extends Controller
         if ($is_api_request) {
 
             $token = $user->createToken('myapptoken')->plainTextToken;
+            $user_permissions = $user->getAllPermissions();
+            $categories = Category::all();
 
             return [
                 'message' => 'user logged in',
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
+                'permissions' => $user_permissions,
+                'categories' => $categories
             ];
         } else {
             $request->session()->regenerate();
