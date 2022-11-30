@@ -25,6 +25,26 @@ Route::get('/signup', function () {
     return view('signup');
 });
 
+Route::get('/shop', function () {
+    return view('shop');
+});
+
+Route::get('/product/details', function () {
+    return view('detail');
+});
+
+Route::get('/cart', function () {
+    return view('cart');
+});
+
+Route::get('/checkout', function () {
+    return view('checkout');
+});
+
+Route::get('/thanks', function () {
+    return view('thankyou');
+});
+
 Route::post('/login', [UserController::class, 'login'])->name('user.login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::post('/signup', [UserController::class, 'register'])->name('user.signup');
