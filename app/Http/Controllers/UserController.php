@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
 
 class UserController extends Controller
 {
@@ -46,15 +48,21 @@ class UserController extends Controller
         ]);
         $is_api_request = $request->route()->getPrefix() === 'api';
 
-        $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'ID_NO' => $fields['ID_NO'],
-            'phone' => $fields['phone'],
-            'user_type' => 'USR',
-            'password' => Hash::make($fields['password'])
-        ]);
+        $user = new User();
+        $user->name = $fields['name'];
+        $user->email = $fields['email'];
+        $user->ID_NO = $fields['ID_NO'];
+        $user->phone = $fields['phone'];
+        $user->user_type = 'USR';
+        $user->password = Hash::make($fields['password']);
+
+        $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+
+        $user->image = $image__url;
+
         $user->assignRole('USR');
+
+        $user->save();
 
         if ($is_api_request) {
             $token = $user->createToken('myapptoken')->plainTextToken;
@@ -120,9 +128,7 @@ class UserController extends Controller
             }
         }
     }
-    /**
-     * User update
-     */
+
     public function update_role(Request $request, $email = null)
     {
         $fields = $request->validate([
@@ -172,6 +178,44 @@ class UserController extends Controller
         }
     }
 
+
+    public function update(Request $request)
+    {
+        $fields = $request->validate([
+            'name' => 'string|nullable',
+            'password' => 'min:8|confirmed|nullable',
+            'image' => 'image|mimes:png,jpg,jpeg|nullable'
+        ]);
+
+        $is_api_request = $request->route()->getPrefix() === 'api';
+
+        $user = User::find($request->user()->id);
+
+        if ($fields['name'] != null) {
+            $user->name = $fields['name'];
+        }
+
+        if ($fields['password'] != null) {
+            $user->password = Hash::make($fields['password']);
+        }
+
+        if (isset($fields['image']) && $fields['image'] != null) {
+            $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+
+            $user->image = $image__url;
+        }
+
+        $user->update();
+
+        if ($is_api_request) {
+            return [
+                'message' => 'user updated!',
+                'user' => $user
+            ];
+        } else {
+            return redirect()->back()->with('message', 'User update!');
+        }
+    }
     /**
      * User login
      */

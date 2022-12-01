@@ -4333,11 +4333,11 @@ article.single-post blockquote p:last-child::after{
     right: 8px;
 }
 .wrap-product-detail .detail-info .product-name{
-    font-size: 16px;
+    font-size: 25px;
     color: #222222;
     line-height: 18px;
     margin: 0 ;
-    font-weight: 600;
+    font-weight: bold;
     border-bottom: 1px solid #e6e6e6;
     padding-bottom: 20px;
     margin-bottom: 15px;

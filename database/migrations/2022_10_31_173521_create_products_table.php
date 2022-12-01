@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('quantity');
             $table->string('exp_date');
             $table->string('arriv_date');
+            $table->string('image');
             $table->string('unit_price');
             $table->timestamps();
         });

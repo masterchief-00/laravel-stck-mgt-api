@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ProductController extends Controller
 {
@@ -52,22 +52,26 @@ class ProductController extends Controller
             'exp_date' => 'required',
             'arriv_date' => 'required',
             'unit_price' => 'required',
-            'image' => 'image|nullable'
+            'image' => 'required|image|mimes:png,jpg,jpeg'
         ]);
 
         $is_api_request =  $request->route()->getPrefix() === 'api';
 
 
         if ($request->user()->can('product:register')) {
-            $product = Product::create([
-                'name' => $fields['name'],
-                'SKU' => $fields['SKU'],
-                'category_id' => $fields['category_id'],
-                'quantity' => $fields['quantity'],
-                'exp_date' => $fields['exp_date'],
-                'arriv_date' => $fields['arriv_date'],
-                'unit_price' => $fields['unit_price'],
-            ]);
+            $product = new Product();
+            $product->name = $fields['name'];
+            $product->SKU = $fields['SKU'];
+            $product->category_id = $fields['category_id'];
+            $product->quantity = $fields['quantity'];
+            $product->exp_date = $fields['exp_date'];
+            $product->arriv_date = $fields['arriv_date'];
+            $product->unit_price = $fields['unit_price'];
+
+            $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+
+            $product->image = $image__url;
+            $product->save();
 
             if ($is_api_request) {
                 return [
@@ -96,7 +100,7 @@ class ProductController extends Controller
             'quantity' => 'required',
             'exp_date' => 'required',
             'arriv_date' => 'required',
-            'unit_price' => 'required'
+            'unit_price' => 'required',
         ]);
         if ($request->user()->can('product:update')) {
             $product = Product::find($id);

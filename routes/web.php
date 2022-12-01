@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,13 +26,6 @@ Route::get('/signup', function () {
     return view('signup');
 });
 
-Route::get('/shop', function () {
-    return view('shop');
-});
-
-Route::get('/product/details', function () {
-    return view('detail');
-});
 
 Route::get('/cart', function () {
     return view('cart');
@@ -48,6 +42,11 @@ Route::get('/thanks', function () {
 Route::post('/login', [UserController::class, 'login'])->name('user.login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::post('/signup', [UserController::class, 'register'])->name('user.signup');
+
+Route::get('/shop', [ShopController::class, 'shop_show']);
+Route::get('/shop/filter/{category_id}',[ShopController::class,'filter_by_category']);
+
+Route::get('/product/details/{id}',[ShopController::class,'product_details']);
 
 
 
@@ -71,6 +70,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/authority', [UserController::class, 'update_role'])->name('role.update');
     Route::post('/users/search', [UserController::class, 'show'])->name('user.search');
 
+    Route::put('/users/update', [UserController::class, 'update'])->name('user.update');
+
+    Route::get('/account', function () {
+        return view('accountSettings');
+    });
 
     Route::get('/analytics', function () {
         return view('analytics');

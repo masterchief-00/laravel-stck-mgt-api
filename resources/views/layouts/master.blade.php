@@ -159,10 +159,18 @@
 
                                                         <div class="media media-sm bg-warning-10 p-4 mb-0">
                                                             <div class="media-sm-wrapper">
-                                                                <a href="user-profile.html">
-                                                                    <img src="{{ asset('images/user/user-sm-02.jpg') }}"
-                                                                        alt="User Image">
-                                                                </a>
+                                                                @if (Auth::user()->image != null)
+                                                                    <a href="user-profile.html">
+                                                                        <img src="{{ Auth::user()->image }}"
+                                                                            alt="User Image">
+                                                                    </a>
+                                                                @else
+                                                                    <a href="user-profile.html">
+                                                                        <img src="{{ asset('images/user/user-sm-02.jpg') }}"
+                                                                            alt="User Image">
+                                                                    </a>
+                                                                @endif
+
                                                             </div>
                                                             <div class="media-body">
                                                                 <a href="user-profile.html">
@@ -429,40 +437,29 @@
                                             </footer>
                                         </div>
                                     </li>
+
                                     <!-- User Account -->
                                     <li class="dropdown user-menu">
                                         <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                            <img src="{{ asset('images/user/user-xs-01.jpg') }}"
-                                                class="user-image rounded-circle" alt="User Image" />
+                                            @if (Auth::user()->image != null)
+                                                <img src="{{ Auth::user()->image }}"
+                                                    class="user-image rounded-circle" alt="User Image" />
+                                            @else
+                                                <img src="{{ asset('images/avatar.png') }}"
+                                                    class="user-image rounded-circle" alt="User Image" />
+                                            @endif
+
                                             <span
                                                 class="d-none d-lg-inline-block">{{ Str::ucfirst(Auth::user()->name) }}</span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right">
                                             <li>
-                                                <a class="dropdown-link-item" href="user-profile.html">
+                                                <a class="dropdown-link-item" href="/account">
                                                     <i class="mdi mdi-account-outline"></i>
                                                     <span class="nav-text">My Profile</span>
                                                 </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-link-item" href="email-inbox.html">
-                                                    <i class="mdi mdi-email-outline"></i>
-                                                    <span class="nav-text">Message</span>
-                                                    <span class="badge badge-pill badge-primary">24</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-link-item" href="user-activities.html">
-                                                    <i class="mdi mdi-diamond-stone"></i>
-                                                    <span class="nav-text">Activitise</span></a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-link-item" href="user-account-settings.html">
-                                                    <i class="mdi mdi-settings"></i>
-                                                    <span class="nav-text">Account Setting</span>
-                                                </a>
-                                            </li>
-
+                                            </li>                                    
+                                            
                                             <li class="dropdown-footer">
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                     style="display: none;">

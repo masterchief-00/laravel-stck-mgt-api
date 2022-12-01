@@ -1,13 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Drivers | Stock Management System')
-
+@section('title', 'Account settings')
 
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                    ===================================== -->
+                                                                                                                                                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                            ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -103,13 +102,13 @@
                         @endcanany
 
                         @canany(['order:update', 'order:delete', 'order:view', 'order:register'])
-                            <li class="has-sub active expand">
+                            <li class="has-sub">
                                 <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
                                     data-target="#shipping" aria-expanded="false" aria-controls="shipping">
                                     <i class="mdi mdi-truck"></i>
                                     <span class="nav-text">Shipping</span> <b class="caret"></b>
                                 </a>
-                                <ul class="collapse show" id="shipping" data-parent="#sidebar-menu">
+                                <ul class="collapse" id="shipping" data-parent="#sidebar-menu">
                                     <div class="sub-menu">
                                         @can('job:view')
                                             <li>
@@ -121,7 +120,7 @@
                                         @endcan
 
                                         @can('user:view')
-                                            <li class="active">
+                                            <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
                                                 </a>
@@ -225,143 +224,82 @@
 
 @endsection
 
-
 @section('content')
-
-
-
     <div class="content">
+        <!-- Card Profile -->
+        <div class="card card-default card-profile">
+            <div class="card-header-bg" style="background-image: url(assets/img/user/user-bg-01.jpg)"></div>
 
-        <!-- Bordered Table -->
-        <div class="card card-default">
-            <div class="card-header">
-                <h2>All drivers</h2>
-
-
-            </div>
-            <div class="card-body">
-                <div class="collapse" id="collapse-table-bordered">
-
-                </div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Identity</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone number</th>
-                            <th scope="col">Status</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row">1</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-success">Available</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">2</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-success">Available</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">3</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-danger">Inactive</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">4</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-warning">Assigned</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">5</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-success">Available</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">6</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-warning">Assigned</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <div class="card-body card-profile-body">
+                <div class="profile-avata">
+                    @if (Auth::user()->image != null)
+                        <img class="user-image rounded-circle" src="{{ Auth::user()->image }}" style="height: 60px" alt="Avata Image" />
+                    @else
+                        <img class="user-image rounded-circle" src="{{ asset('images/avatar-small.jpg') }}"
+                            alt="Avata Image" />
+                    @endif
+                    <a class="h5 d-block mt-3 mb-2" href="#">{{ Auth::user()->name }}</a>
+                    <a class="d-block text-color" href="#">{{ Auth::user()->email }}</a>
+                </div>               
+            </div>            
         </div>
 
+        <div class="row">
+            
+            <div class="col-xl-12">
+                <!-- Account Settings -->
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h2 class="mb-5">Account Settings</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <form action="{{ route('user.update') }}" method="POST" enctype="multipart/form-data">
+                            {{ method_field('PUT') }}
+                            @csrf
+                            <div class="row mb-2">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="firstName">Names</label>
+                                        <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control" id="firstName" />
+                                    </div>
+                                </div>                               
+                            </div>
+                            
+                            <div class="form-group mb-4">
+                                <label for="email">Email</label>
+                                <input type="email" value="{{ Auth::user()->email }}" class="form-control" id="email" disabled />
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="email">Identity card number</label>
+                                <input type="email" value="{{ Auth::user()->ID_NO }}" class="form-control" id="ID_NO" disabled />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input type="file" class="form-control-file" id="image" name="image">
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="newPassword">New password</label>
+                                <input type="password" name="password" class="form-control" id="newPassword" />
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="conPassword">Confirm password</label>
+                                <input type="password" name="password_confirmation" class="form-control" id="conPassword" />
+                            </div>
+
+                            <div class="d-flex justify-content-end mt-6">
+                                <button type="submit" class="btn btn-primary mb-2 btn-pill">
+                                    Update Profile
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

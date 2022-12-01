@@ -95,23 +95,23 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="{{ route('user.signup') }}" method="POST">
+                            <form action="{{ route('user.signup') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="text" name="name" class="form-control input-lg" id="name"
+                                        <input type="text" name="name" value="{{ old('name') }}" class="form-control input-lg" id="name"
                                             aria-describedby="nameHelp" placeholder="Names">
                                     </div>
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="email" name="email" class="form-control input-lg" id="email"
+                                        <input type="email" name="email" value="{{ old('email') }}" class="form-control input-lg" id="email"
                                             aria-describedby="emailHelp" placeholder="Email">
                                     </div>
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="text" name="phone" class="form-control input-lg" id="phone"
+                                        <input type="text" name="phone" value="{{ old('phone') }}" class="form-control input-lg" id="phone"
                                             aria-describedby="phoneHelp" placeholder="Phone number">
                                     </div>
                                     <div class="form-group col-md-12 mb-4">
-                                        <input type="text" name="ID_NO" class="form-control input-lg" id="id_no"
+                                        <input type="text" name="ID_NO" value="{{ old('ID_NO') }}" class="form-control input-lg" id="id_no"
                                             aria-describedby="idHelp" placeholder="ID card Number">
                                     </div>
                                     <div class="form-group col-md-12 ">
@@ -121,6 +121,10 @@
                                     <div class="form-group col-md-12 ">
                                         <input type="password" name="password_confirmation" class="form-control input-lg" id="cpassword"
                                             placeholder="Confirm Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image">image</label>
+                                        <input type="file" class="form-control-file" id="image" name="image">
                                     </div>
                                     <div class="col-md-12">
                                         <div class="d-flex justify-content-between mb-3">
