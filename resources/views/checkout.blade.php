@@ -17,45 +17,37 @@
             <div class=" main-content-area">
                 <div class="wrap-address-billing">
                     <h3 class="box-title">Billing Address</h3>
-                    <form action="#" method="get" name="frm-billing">
+                    <form action="{{ route('order.checkout') }}" method="POST" name="frm-billing">
+                        @csrf
                         <p class="row-in-form">
-                            <label for="fname">first name<span>*</span></label>
-                            <input id="fname" type="text" name="fname" value="" placeholder="Your name">
+                            <label for="fname">Names<span>*</span></label>
+                            <input id="fname" type="text" name="names" value="{{ Auth::user()->name }}"
+                                placeholder="Your names">
                         </p>
-                        <p class="row-in-form">
-                            <label for="lname">last name<span>*</span></label>
-                            <input id="lname" type="text" name="lname" value="" placeholder="Your last name">
-                        </p>
+
                         <p class="row-in-form">
                             <label for="email">Email Addreess:</label>
-                            <input id="email" type="email" name="email" value=""
+                            <input id="email" type="email" name="email" value="{{ Auth::user()->email }}"
                                 placeholder="Type your email">
                         </p>
                         <p class="row-in-form">
                             <label for="phone">Phone number<span>*</span></label>
-                            <input id="phone" type="number" name="phone" value=""
+                            <input id="phone" type="number" name="phone" value="{{ Auth::user()->phone }}"
                                 placeholder="10 digits format">
                         </p>
-                        <p class="row-in-form">
-                            <label for="add">Address:</label>
-                            <input id="add" type="text" name="add" value=""
-                                placeholder="Street at apartment number">
-                        </p>
-                        <p class="row-in-form">
-                            <label for="country">Country<span>*</span></label>
-                            <input id="country" type="text" name="country" value="" placeholder="United States">
-                        </p>
-                        <p class="row-in-form">
-                            <label for="zip-code">Postcode / ZIP:</label>
-                            <input id="zip-code" type="number" name="zip-code" value=""
-                                placeholder="Your postal code">
-                        </p>
-                        <p class="row-in-form">
-                            <label for="city">Town / City<span>*</span></label>
-                            <input id="city" type="text" name="city" value="" placeholder="City name">
-                        </p>
 
-                    </form>
+                        <p class="row-in-form">
+                            <label for="country">Province<span>*</span></label>
+                            <input id="country" type="text" name="province" value=""
+                                placeholder="Nothern province">
+                        </p>
+                        <p class="row-in-form">
+                            <label for="district">District:</label>
+                            <input id="district"  type="text" name="district" value="" placeholder="Your district">
+                        </p>
+                        <input type="hidden" name="total"
+                            value="{{ Session::has('order-total') ? session()->get('order-total') : null }}" />
+                        <input type="hidden" name="orderItems[]" value="{{ serialize(session()->get('cart')) }}" />
                 </div>
                 <div class="summary summary-checkout">
                     <div class="summary-item payment-method">
@@ -83,10 +75,13 @@
                             </label>
                         </div>
                         <p class="summary-info grand-total"><span>Grand Total</span> <span
-                                class="grand-total-price">$100.00</span></p>
-                        <a href="/thanks" class="btn btn-medium">Place order now</a>
+                                class="grand-total-price">${{ Session::has('order-total') ? session()->get('order-total') : '[NOT SET]' }}</span>
+                        </p>
+                        <button type="submit" href="/thanks" class="btn btn-medium">Place order now</button>
                     </div>
                 </div>
+                </form>
+
             </div>
             <!--end main content area-->
         </div>

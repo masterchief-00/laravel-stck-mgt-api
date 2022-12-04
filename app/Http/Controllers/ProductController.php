@@ -23,6 +23,13 @@ class ProductController extends Controller
 
         return view('products.add_products', compact('categories'));
     }
+    public function show_product_edit(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $categories = Category::all();
+
+        return view('products.update_products', compact('product', 'categories'));
+    }
 
     /**list all products */
     public function index(Request $request)
@@ -128,7 +135,7 @@ class ProductController extends Controller
         return Product::find($id);
     }
 
-    /** delete product */
+    /** delete product ___API*/
     public function destroy($id)
     {
         $user = User::find(auth()->user()->id);
@@ -146,6 +153,55 @@ class ProductController extends Controller
             }
         } else {
             return ['message' => 'unauthorised for this action'];
+        }
+    }
+    /**delete product __WEB */
+    public function delete_product(Request $request, $id)
+    {
+        if ($request->user()->can('product:delete')) {
+            $product = Product::find($id);
+            $response = $product->delete();
+            if ($response == 1) {
+                return redirect()->back()->with('message', 'product deleted');
+            }
+        } else {
+            return redirect()->back()->with('message', 'Unauthorised for that action');
+        }
+    }
+    /**edit product __WEB */
+    public function edit_product(Request $request)
+    {
+        $id = $request->id;
+        $fields = $request->validate([
+            'name' => 'required|string',
+            'SKU' => 'required',
+            'category_id' => 'required',
+            'quantity' => 'required',
+            'exp_date' => 'required',
+            'arriv_date' => 'required',
+            'unit_price' => 'required',
+            'image' => 'image|mimes:png,jpg,jpeg|nullable'
+        ]);
+        if ($request->user()->can('product:update')) {
+
+            $product = Product::find($id);
+            $product->name = $fields['name'];
+            $product->SKU = $fields['SKU'];
+            $product->category_id = $fields['category_id'];
+            $product->quantity = $fields['quantity'];
+            $product->exp_date = $fields['exp_date'];
+            $product->arriv_date = $fields['arriv_date'];
+            $product->unit_price = $fields['unit_price'];
+
+            if (isset($fields['image']) && $fields['image'] != null) {
+                $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+
+                $product->image = $image__url;
+            }
+
+            $product->update();
+
+            return redirect()->back()->with('message', 'product updated');
         }
     }
 }

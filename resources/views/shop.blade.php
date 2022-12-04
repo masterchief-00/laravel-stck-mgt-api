@@ -9,7 +9,7 @@
 
             <div class="wrap-breadcrumb">
                 <ul>
-                    <li class="item-link"><a href="#" class="link">home</a></li>
+                    <li class="item-link"><a href="/shop" class="link">home</a></li>
                     <li class="item-link"><span>Shop</span></li>
                 </ul>
             </div>
@@ -36,7 +36,7 @@
                                 <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6 ">
                                     <div class="product product-style-3 equal-elem ">
                                         <div class="product-thumnail">
-                                            <a href="/product/details/{{ $product->id }}" title="T-Shirt Raw Hem Organic Boro Constrast Denim">
+                                            <a href="/product/details/{{ $product->id }}" title="{{ $product->name }}">
                                                 @if ($product->image != null)
                                                     <figure><img src="{{ $product->image }}" alt="{{ $product->name }}">
                                                     </figure>
@@ -48,10 +48,10 @@
                                             </a>
                                         </div>
                                         <div class="product-info">
-                                            <a href="#" class="product-name"><span>{{ $product->name }}</span></a>
+                                            <a href="/product/details/{{ $product->id }}" class="product-name"><span>{{ $product->name }}</span></a>
                                             <div class="wrap-price"><span
-                                                    class="product-price">{{ $product->unit_price }}</span></div>
-                                            <a href="#" class="btn add-to-cart">Add To Cart</a>
+                                                    class="product-price">${{ $product->unit_price }}</span></div>
+                                            <a href="/add-to-cart/{{ $product->id }}" class="btn add-to-cart">Add To Cart</a>
                                         </div>
                                     </div>
                                 </li>

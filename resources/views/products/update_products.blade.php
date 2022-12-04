@@ -1,12 +1,13 @@
 @extends('layouts.master')
 
-@section('title', 'Orders | Stock Management System')
+@section('title', 'Edit products | Stock Management System')
+
 
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                                ===================================== -->
+                                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                    ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -50,13 +51,13 @@
                         </li>
 
                         @canany(['product:view', 'product:register', 'product:update', 'product:delete'])
-                            <li class="has-sub">
+                            <li class="has-sub active expand">
                                 <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#product"
                                     aria-expanded="false" aria-controls="product">
                                     <i class="mdi mdi-cart"></i>
                                     <span class="nav-text">Products</span> <b class="caret"></b>
                                 </a>
-                                <ul class="collapse" id="product" data-parent="#sidebar-menu">
+                                <ul class="collapse show" id="product" data-parent="#sidebar-menu">
                                     <div class="sub-menu">
                                         @can('product:view')
                                             <li>
@@ -81,16 +82,16 @@
                         @endcanany
 
                         @canany(['order:update', 'order:delete', 'order:view', 'order:register'])
-                            <li class="has-sub active expand">
+                            <li class="has-sub">
                                 <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#orders"
                                     aria-expanded="false" aria-controls="orders">
                                     <i class="mdi mdi-basket"></i>
                                     <span class="nav-text">Orders</span> <b class="caret"></b>
                                 </a>
-                                <ul class="collapse show" id="orders" data-parent="#sidebar-menu">
+                                <ul class="collapse" id="orders" data-parent="#sidebar-menu">
                                     <div class="sub-menu">
                                         @can('order:view')
-                                            <li class="active">
+                                            <li>
                                                 <a class="sidenav-item-link" href="/orders">
                                                     <span class="nav-text">All orders</span>
                                                 </a>
@@ -225,61 +226,100 @@
 @endsection
 
 @section('content')
-
     <div class="content">
-
-        <!-- Bordered Table -->
+        @if (session('message'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                <label class="btn btn-success">{{ session('message') }}</label>
+            </div>
+        @endif
         <div class="card card-default">
+
             <div class="card-header">
-                <h2>All orders</h2>
+                <h2>Edit product</h2>
 
             </div>
             <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Province</th>
-                            <th scope="col">District</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Number of items</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Status</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orders as $order)
-                            <tr>
-                                <td scope="row">{{ $order->id }}</td>
-                                <td>{{ $order->names }}</td>
-                                <td>{{ $order->province }}</td>
-                                <td>{{ $order->district }}</td>
-                                <td>{{ $order->email }}</td>
-                                <td>{{ $order->created_at }}</td>
-                                <td>{{ $order->order->orderItem->count() }}</td>
-                                <td>${{ $order->total }}</td>
-                                <td><span
-                                        class="badge badge-{{ $order->status == 'APPROVED' ? 'success' : ($order->status == 'PENDING' ? 'warning' : 'danger') }}">{{ $order->status }}</span>
-                                </td>
-                                <th class="text-center">
-                                    <a href="/orders/update/{{ $order->id }}">
-                                        <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                    </a>
-                                    <a href="/orders/delete/{{ $order->id }}">
-                                        <i class="mdi mdi-close text-danger"></i>
-                                    </a>
+                <div class="collapse" id="collapse-basic-input">
 
-                                </th>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{ route('products.edit') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $product->id }}" />
+                    <div class="form-group">
+                        <label for="Product_name">Product name</label>
+                        <input type="text" name="name" class="form-control" id="Product_name"
+                            placeholder="e.g: HP Printer" value="{{ $product->name }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SKU">Product SKU</label>
+                        <input type="text" name="SKU" class="form-control" id="SKU"
+                            placeholder="e.g: EL-PR-HP123" value="{{ $product->SKU }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" name="quantity" class="form-control" id="quantity" placeholder="e.g: 23"
+                            value="{{ $product->quantity }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price per unit</label>
+                        <input type="text" name="unit_price" class="form-control" id="price"
+                            placeholder="e.g: $23" value="{{ $product->unit_price }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="arrivDate">Arrival Date</label>
+                        <input type="date" name="arriv_date" class="form-control" id="arrivDate"
+                            placeholder="e.g: 23/04/2020" value="{{ $product->arriv_date }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expDate">Expiry Date</label>
+                        <input type="date" name="exp_date" class="form-control" id="expDate"
+                            placeholder="e.g: 23/04/2020" value="{{ $product->exp_date }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categories">Product category</label>
+                        <select class="form-control" id="categories" name="category_id">
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ $category->id == $product->id ? 'selected' : '' }}>{{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- <div class="form-group">
+                        <label for="desc">Product description</label>
+                        <textarea class="form-control" id="desc" rows="3" name="description"></textarea>
+                    </div> --}}
+
+
+
+                    <div class="form-group">
+                        <label for="image">Product image</label>
+                        <input type="file" class="form-control-file" id="image" name="image">
+                    </div>
+
+                    <div class="form-footer mt-6">
+                        <button type="submit" class="btn btn-primary btn-pill">Submit</button>
+                    </div>
+                </form>
+
             </div>
         </div>
 
     </div>
-    
-    @endsection
+@endsection

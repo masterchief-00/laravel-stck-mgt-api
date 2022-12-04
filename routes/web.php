@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\CartComponent;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DeliverJobController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
@@ -26,29 +30,13 @@ Route::get('/signup', function () {
     return view('signup');
 });
 
-
-Route::get('/cart', function () {
-    return view('cart');
-});
-
-Route::get('/checkout', function () {
-    return view('checkout');
-});
-
-Route::get('/thanks', function () {
-    return view('thankyou');
-});
-
 Route::post('/login', [UserController::class, 'login'])->name('user.login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::post('/signup', [UserController::class, 'register'])->name('user.signup');
 
-Route::get('/shop', [ShopController::class, 'shop_show']);
-Route::get('/shop/filter/{category_id}',[ShopController::class,'filter_by_category']);
-
-Route::get('/product/details/{id}',[ShopController::class,'product_details']);
 
 
+Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('order.checkout');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
@@ -57,6 +45,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products');
     Route::post('/products', [ProductController::class, 'store'])->name('products.add');
     Route::get('/products/add', [ProductController::class, 'add_product']);
+    Route::get('/products/delete/{id}', [ProductController::class, 'delete_product']);
+    Route::get('/products/update/{id}', [ProductController::class, 'show_product_edit']);
+    Route::post('/products/edit', [ProductController::class, 'edit_product'])->name('products.edit');
+
 
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.add');
@@ -72,20 +64,42 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::put('/users/update', [UserController::class, 'update'])->name('user.update');
 
+    Route::get('/shop', [ShopController::class, 'shop_show']);
+    Route::get('/shop/filter/{category_id}', [ShopController::class, 'filter_by_category']);
+
+    Route::get('/product/details/{id}', [ShopController::class, 'product_details']);
+
+    Route::get('/add-to-cart/{id}', [CartComponent::class, 'addToCart']);
+    Route::delete('/remove-from-cart', [CartComponent::class, 'removeFromCart']);
+    Route::put('/update-cart', [CartComponent::class, 'updateCart']);
+    Route::get('/clear-cart', [CartComponent::class, 'clearCart']);
+
+    Route::get('/orders', [OrderController::class, 'orders_show']);
+    Route::get('/orders/delete/{id}', [OrderController::class, 'delete_order']);
+    Route::get('/orders/update/{id}', [OrderController::class, 'show_order_edit']);
+    Route::post('/orders/edit', [OrderController::class, 'edit_order'])->name('orders.edit');
+
+    Route::get('/jobs',[DeliverJobController::class,'jobs_show']);
+
+    Route::get('/thanks', function () {
+        return view('thankyou');
+    });
+
+    Route::get('/cart', function () {
+        return view('cart');
+    });
+
+    Route::get('/checkout', function () {
+        return view('checkout');
+    });
+
+
     Route::get('/account', function () {
         return view('accountSettings');
     });
 
     Route::get('/analytics', function () {
         return view('analytics');
-    });
-
-    Route::get('/orders', function () {
-        return view('orders.orders');
-    });
-
-    Route::get('/jobs', function () {
-        return view('shipping.jobs');
     });
 
     Route::get('/jobs/drivers', function () {

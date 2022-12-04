@@ -257,7 +257,11 @@ class UserController extends Controller
         } else {
             $request->session()->regenerate();
             Auth::login($user);
-            return redirect()->intended('/');
+            if ($user->hasRole('USR')) {
+                return redirect('/shop');
+            } else {
+                return redirect('/');
+            }
         }
     }
     public function logout(Request $request)

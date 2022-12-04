@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                ===================================== -->
+                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                        ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -226,8 +226,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                    ===================================== -->
+                                                                                                                                                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                            ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -272,8 +272,8 @@
 
                         @canany(['product:view', 'product:register', 'product:update', 'product:delete'])
                             <li class="has-sub">
-                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#product"
-                                    aria-expanded="false" aria-controls="product">
+                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                                    data-target="#product" aria-expanded="false" aria-controls="product">
                                     <i class="mdi mdi-cart"></i>
                                     <span class="nav-text">Products</span> <b class="caret"></b>
                                 </a>
@@ -303,8 +303,8 @@
 
                         @canany(['order:update', 'order:delete', 'order:view', 'order:register'])
                             <li class="has-sub">
-                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#orders"
-                                    aria-expanded="false" aria-controls="orders">
+                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                                    data-target="#orders" aria-expanded="false" aria-controls="orders">
                                     <i class="mdi mdi-basket"></i>
                                     <span class="nav-text">Orders</span> <b class="caret"></b>
                                 </a>
@@ -476,126 +476,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td scope="row">1</td>
-                            <td>Kalinda Vital</td>
-                            <td>Northern</td>
-                            <td>Gicumbi</td>
-                            <td>kalinda@gmail.com</td>
-                            <td>12/06/2020</td>
-                            <td>5</td>
-                            <td>$500</td>
-                            <td><span class="badge badge-success">Approved</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
+                        @foreach ($jobs as $job)
+                            <tr>
+                                <td scope="row">{{ $job->id }}</td>
+                                <td>{{ $job->order->names }}</td>
+                                <td>{{ $job->order->province }}</td>
+                                <td>{{ $job->order->district }}</td>
+                                <td>{{ $job->order->email }}</td>
+                                <td>{{ $job->created_at }}</td>
+                                <td>{{ $job->order->orderItem->count() }} items</td>
+                                <td>{{ $job->order->total }}</td>
+                                <td><span class="badge badge-success">Approved</span></td>
+                                <th class="text-center">
+                                    <a href="#">
+                                        <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="mdi mdi-close text-danger"></i>
+                                    </a>
 
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">2</td>
-                            <td>Kalinda Vital</td>
-                            <td>Northern</td>
-                            <td>Gicumbi</td>
-                            <td>kalinda@gmail.com</td>
-                            <td>12/06/2020</td>
-                            <td>5</td>
-                            <td>$500</td>
-                            <td><span class="badge badge-success">Approved</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">3</td>
-                            <td>Kalinda Vital</td>
-                            <td>Northern</td>
-                            <td>Gicumbi</td>
-                            <td>kalinda@gmail.com</td>
-                            <td>12/06/2020</td>
-                            <td>5</td>
-                            <td>$500</td>
-                            <td><span class="badge badge-success">Approved</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">4</td>
-                            <td>Kalinda Vital</td>
-                            <td>Northern</td>
-                            <td>Gicumbi</td>
-                            <td>kalinda@gmail.com</td>
-                            <td>12/06/2020</td>
-                            <td>5</td>
-                            <td>$500</td>
-                            <td><span class="badge badge-success">Approved</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">5</td>
-                            <td>Kalinda Vital</td>
-                            <td>Northern</td>
-                            <td>Gicumbi</td>
-                            <td>kalinda@gmail.com</td>
-                            <td>12/06/2020</td>
-                            <td>5</td>
-                            <td>$500</td>
-                            <td><span class="badge badge-success">Approved</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">6</td>
-                            <td>Kalinda Vital</td>
-                            <td>Northern</td>
-                            <td>Gicumbi</td>
-                            <td>kalinda@gmail.com</td>
-                            <td>12/06/2020</td>
-                            <td>5</td>
-                            <td>$500</td>
-                            <td><span class="badge badge-success">Approved</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
+                                </th>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

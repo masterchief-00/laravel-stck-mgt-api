@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('deliver_jobs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->string('deadline');
+            $table->string('deadline')->nullable();
             $table->foreignId('assigned_driver')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

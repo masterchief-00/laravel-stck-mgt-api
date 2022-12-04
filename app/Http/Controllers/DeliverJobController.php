@@ -18,6 +18,14 @@ class DeliverJobController extends Controller
         return DeliverJob::all();
     }
 
+    public function jobs_show(Request $request)
+    {
+        if ($request->user()->can('job:view')) {
+            $jobs = DeliverJob::all();
+            return view('shipping.jobs',compact('jobs'));
+        }
+    }
+
     /**create new orderItem: USELESS METHOD */
     public function store(Request $request)
     {

@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
-@section('title', 'Orders | Stock Management System')
+@section('title', 'Edit orders | Stock Management System')
+
 
 @section('sidebar')
 
@@ -87,10 +88,10 @@
                                     <i class="mdi mdi-basket"></i>
                                     <span class="nav-text">Orders</span> <b class="caret"></b>
                                 </a>
-                                <ul class="collapse show" id="orders" data-parent="#sidebar-menu">
+                                <ul class="collapse" id="orders" data-parent="#sidebar-menu">
                                     <div class="sub-menu">
                                         @can('order:view')
-                                            <li class="active">
+                                            <li>
                                                 <a class="sidenav-item-link" href="/orders">
                                                     <span class="nav-text">All orders</span>
                                                 </a>
@@ -225,61 +226,92 @@
 @endsection
 
 @section('content')
-
     <div class="content">
-
-        <!-- Bordered Table -->
+        @if (session('message'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                <label class="btn btn-success">{{ session('message') }}</label>
+            </div>
+        @endif
         <div class="card card-default">
+
             <div class="card-header">
-                <h2>All orders</h2>
+                <h2>Edit order</h2>
 
             </div>
             <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Province</th>
-                            <th scope="col">District</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Number of items</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Status</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orders as $order)
-                            <tr>
-                                <td scope="row">{{ $order->id }}</td>
-                                <td>{{ $order->names }}</td>
-                                <td>{{ $order->province }}</td>
-                                <td>{{ $order->district }}</td>
-                                <td>{{ $order->email }}</td>
-                                <td>{{ $order->created_at }}</td>
-                                <td>{{ $order->order->orderItem->count() }}</td>
-                                <td>${{ $order->total }}</td>
-                                <td><span
-                                        class="badge badge-{{ $order->status == 'APPROVED' ? 'success' : ($order->status == 'PENDING' ? 'warning' : 'danger') }}">{{ $order->status }}</span>
-                                </td>
-                                <th class="text-center">
-                                    <a href="/orders/update/{{ $order->id }}">
-                                        <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                    </a>
-                                    <a href="/orders/delete/{{ $order->id }}">
-                                        <i class="mdi mdi-close text-danger"></i>
-                                    </a>
+                <div class="collapse" id="collapse-basic-input">
 
-                                </th>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{ route('orders.edit') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $order->id }}" />
+                    <div class="form-group">
+                        <label for="names">Names</label>
+                        <input type="text" name="names" class="form-control" id="names"
+                            value="{{ $order->names }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" name="phone" class="form-control" id="phone"
+                            value="{{ $order->phone }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="province">Province</label>
+                        <input type="text" name="province" class="form-control" id="province"
+                            value="{{ $order->province }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="district">District</label>
+                        <input type="text" name="district" class="form-control" id="district"
+                            value="{{ $order->district }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" class="form-control" id="email"
+                            value="{{ $order->email }}">
+                    </div>                   
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="PENDING" {{ 'PENDING' == $order->status ? 'selected' : '' }}>PENDING</option>
+                            <option value="APPROVED" {{ 'APPROVED' == $order->status ? 'selected' : '' }}>APPROVED
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="text" class="form-control" id="quantity" placeholder="e.g: 23"
+                            value="{{ $order->orderItem->count() }} items" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="total">Total</label>
+                        <input type="text" class="form-control" id="total" placeholder="e.g: 23"
+                            value="${{ $order->total }}" disabled>
+                    </div>
+
+                    <div class="form-footer mt-6">
+                        <button type="submit" class="btn btn-primary btn-pill">Submit</button>
+                    </div>
+                </form>
+
             </div>
         </div>
 
     </div>
-    
-    @endsection
+@endsection

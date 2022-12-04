@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('customer/images/favicon.ico') }}">
     <link
@@ -49,9 +50,28 @@
                         </div>
                         <div class="topbar-menu right-menu">
                             <ul>
-                                <li class="menu-item"><a title="Register or Login" href="/login">Login</a></li>
-                                <li class="menu-item"><a title="Register or Login" href="/register">Register</a>
-                                </li>
+                                @auth
+                                    <li class="menu-item menu-item-has-children parent">
+                                        <a title="My account" href="#">My account ({{ Auth::user()->name }})<i
+                                                class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                        <ul class="submenu curency">
+                                            <li class="menu-item">
+                                                <a title="Dashboard" href="#">Profile settings</a>
+                                            </li>
+
+                                            <li class="menu-item">
+                                                <a href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a>
+                                            </li>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                                @csrf
+                                            </form>
+                                        </ul>
+                                    </li>
+                                @else
+                                    <li class="menu-item"><a title="Register or Login" href="/login">Login</a></li>
+                                    <li class="menu-item"><a title="Register or Login" href="/register">Register</a></li>
+                                @endauth
                             </ul>
                         </div>
                     </div>
@@ -76,7 +96,9 @@
                                 <a href="/cart" class="link-direction">
                                     <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                     <div class="left-info">
-                                        <span class="index">4 items</span>
+                                        <span
+                                            class="index">{{ Session::get('cart') ? count(Session::get('cart')) : 0 }}
+                                            item(s)</span>
                                         <span class="title">CART</span>
                                     </div>
                                 </a>
@@ -102,7 +124,7 @@
                                 <li class="menu-item home-icon">
                                     <a href="/shop" class="link-term mercado-item-title"><i class="fa fa-home"
                                             aria-hidden="true"></i></a>
-                                </li>                                
+                                </li>
                                 <li class="menu-item">
                                     <a href="/cart" class="link-term mercado-item-title">Cart</a>
                                 </li>
@@ -371,6 +393,8 @@
     <script src="{{ asset('customer/js/jquery.countdown.min.js') }}"></script>
     <script src="{{ asset('customer/js/jquery.sticky.js') }}"></script>
     <script src="{{ asset('customer/js/functions.js') }}"></script>
+
+    @yield('scripts')
 </body>
 
 </html>

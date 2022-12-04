@@ -67,7 +67,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Role::firstOrCreate(['name' => 'DRV'])
             ->givePermissionTo(['job:register', 'job:update', 'job:delete', 'job:view', 'user:register', 'user:update', 'user:delete', 'user:view', 'user:logout']);
         Role::firstOrCreate(['name' => 'USR'])
-            ->givePermissionTo(['product:view', 'user:register', 'user:update', 'user:delete', 'user:view', 'user:logout']);
+            ->givePermissionTo(['product:view', 'user:register', 'user:update', 'user:delete', 'user:view', 'user:logout', 'order:register']);
 
         $role = Role::firstOrCreate(['name' => 'ADM']);
         $role->givePermissionTo(Permission::all());
