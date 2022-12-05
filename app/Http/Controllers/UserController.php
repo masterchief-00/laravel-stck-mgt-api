@@ -20,6 +20,13 @@ class UserController extends Controller
         return view('users.users', compact('users'));
     }
 
+
+    public function show_register_driver(Request $request)
+    {
+        if ($request->user()->hasAnyRole('ADM', 'DLV')) {
+            return view('shipping.add_drivers');
+        }
+    }
     public function admin_add()
     {
         $roles = Role::all();
@@ -56,9 +63,11 @@ class UserController extends Controller
         $user->user_type = 'USR';
         $user->password = Hash::make($fields['password']);
 
-        $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+        if (isset($fields['image'])) {
+            $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
 
-        $user->image = $image__url;
+            $user->image = $image__url;
+        }
 
         $user->assignRole('USR');
 
@@ -75,7 +84,11 @@ class UserController extends Controller
         } else {
             $request->session()->regenerate();
             Auth::login($user);
-            return redirect()->intended('/');
+            if ($user->hasRole('USR')) {
+                return redirect('/shop');
+            } else {
+                return redirect('/analytics');
+            }
         }
     }
     /**
@@ -136,10 +149,8 @@ class UserController extends Controller
             'email' => 'nullable'
         ]);
         $is_api_request = $request->route()->getPrefix() === 'api';
-        $current_user = User::find(auth()->user()->id);
 
-
-        if ($current_user->hasRole('ADM')) {
+        if ($request->user()->hasRole('ADM')) {
             $user = User::where('email', $is_api_request ? $email : $fields['email'])->first();
 
             if ($user) {
@@ -260,7 +271,7 @@ class UserController extends Controller
             if ($user->hasRole('USR')) {
                 return redirect('/shop');
             } else {
-                return redirect('/');
+                return redirect('/analytics');
             }
         }
     }
@@ -297,5 +308,54 @@ class UserController extends Controller
             ->orWhere('email', 'like', $fields['query'] . '%')->get();
 
         return redirect()->route('authority.render')->with(['results' => $results]);
+    }
+
+
+    public function show_drivers(Request $request)
+    {
+        if ($request->user()->hasAnyRole('ADM', 'DLV')) {
+            $drivers = User::where('user_type', 'DRV')->get();
+
+            return view('shipping.drivers', compact('drivers'));
+        }
+    }
+    public function register_driver(Request $request)
+    {
+        $fields = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'ID_NO' => 'required|unique:users,ID_NO',
+            'phone' => 'required|unique:users,phone',
+            'image' => 'image|mimes:jpeg,jpg,png|nullable',
+        ]);
+
+        if ($request->user()->hasAnyRole('ADM', 'DLV')) {
+            $user = new User();
+            $user->name = $fields['name'];
+            $user->email = $fields['email'];
+            $user->ID_NO = $fields['ID_NO'];
+            $user->phone = $fields['phone'];
+            $user->user_type = 'DRV';
+            $user->status = 'available';
+            $user->password = Hash::make('12345678');
+
+            $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+
+            $user->image = $image__url;
+
+            $user->assignRole('DRV');
+
+            $user->save();
+
+            return redirect()->back()->with('message', 'Driver registered');
+        }
+    }
+
+    public function delete_driver(Request $request, $id)
+    {
+        if ($request->user()->can('user:delete')) {
+            User::destroy($id);
+            return redirect()->back()->with('message', 'Driver deleted');
+        }
     }
 }

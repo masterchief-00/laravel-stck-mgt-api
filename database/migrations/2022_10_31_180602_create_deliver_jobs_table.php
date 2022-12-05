@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string('deadline')->nullable();
-            $table->foreignId('assigned_driver')->references('id')->on('users')->onDelete('cascade');
+            $table->string('assigned_driver')->nullable();
             $table->timestamps();
         });
     }

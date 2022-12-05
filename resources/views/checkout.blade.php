@@ -17,6 +17,13 @@
             <div class=" main-content-area">
                 <div class="wrap-address-billing">
                     <h3 class="box-title">Billing Address</h3>
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     <form action="{{ route('order.checkout') }}" method="POST" name="frm-billing">
                         @csrf
                         <p class="row-in-form">
@@ -43,7 +50,7 @@
                         </p>
                         <p class="row-in-form">
                             <label for="district">District:</label>
-                            <input id="district"  type="text" name="district" value="" placeholder="Your district">
+                            <input id="district" type="text" name="district" value="" placeholder="Your district">
                         </p>
                         <input type="hidden" name="total"
                             value="{{ Session::has('order-total') ? session()->get('order-total') : null }}" />

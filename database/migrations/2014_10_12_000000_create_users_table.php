@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('user_type')->default('USR');
             $table->string('image')->nullable();
+            $table->string('status')->nullable()->default('available');//for drivers only
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

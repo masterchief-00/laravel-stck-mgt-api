@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     public function deliverJob()
     {
-        return $this->hasOne(DeliverJob::class);
+        return $this->hasMany(DeliverJob::class);
     }
     /**
      * The attributes that should be hidden for serialization.

@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                        ===================================== -->
+                                                                                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                            ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -226,8 +226,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                            ===================================== -->
+                                                                                                                                                                                                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                                                                ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -244,13 +244,6 @@
 
                     @hasanyrole('ADM|WHS')
                         <li>
-                            <a class="sidenav-item-link" href="/">
-                                <i class="mdi mdi-briefcase-account-outline"></i>
-                                <span class="nav-text">Business Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li>
                             <a class="sidenav-item-link" href="/analytics">
                                 <i class="mdi mdi-chart-line"></i>
                                 <span class="nav-text">Analytics Dashboard</span>
@@ -262,12 +255,6 @@
                     @hasanyrole('ADM|WHS|DLV')
                         <li class="section-title">
                             User actions
-                        </li>
-                        <li>
-                            <a class="sidenav-item-link" href="chat.html">
-                                <i class="mdi mdi-wechat"></i>
-                                <span class="nav-text">Chat</span>
-                            </a>
                         </li>
 
                         @canany(['product:view', 'product:register', 'product:update', 'product:delete'])
@@ -471,7 +458,7 @@
                             <th scope="col">Date</th>
                             <th scope="col">Number of items</th>
                             <th scope="col">Total</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Assigned to</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -486,15 +473,12 @@
                                 <td>{{ $job->created_at }}</td>
                                 <td>{{ $job->order->orderItem->count() }} items</td>
                                 <td>{{ $job->order->total }}</td>
-                                <td><span class="badge badge-success">Approved</span></td>
+                                <td>{{ isset($job->assigned_driver) ? $job->assigned_driver : 'N/A' }}</td>
                                 <th class="text-center">
-                                    <a href="#">
-                                        <i class="mdi mdi-open-in-new" data-toggle="modal" data-target="#orderitems"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="mdi mdi-close text-danger"></i>
-                                    </a>
-
+                                    <button onclick="setJobId({{ $job->id }},event)" type="button"
+                                        class="btn btn-sm btn-primary" data-toggle="modal" data-target="#assign">
+                                        Assign
+                                    </button>
                                 </th>
                             </tr>
                         @endforeach
@@ -504,138 +488,50 @@
         </div>
 
 
-        <!-- Tooltip Modal -->
-        <div class="modal fade" id="orderitems" tabindex="-1" role="dialog" aria-labelledby="orderitems"
+
+        {{-- MODAL --}}
+        <div class="modal fade" id="assign" tabindex="-1" role="dialog" aria-labelledby="assignLabel"
             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle2">Order #5654</h5>
+                        <h5 class="modal-title" id="assignLabel">Select a driver</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h5>All order items</h5>
-
-                        <!-- Bordered Table -->
-                        <div class="card card-default">
-
-                            <div class="card-body">
-                                <div class="collapse" id="collapse-table-bordered">
-
-                                </div>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Product name</th>
-                                            <th scope="col">SKU</th>
-                                            <th scope="col">Price</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td scope="row">1</td>
-                                            <td>HP Printer</td>
-                                            <td>EL-PR-HP234</td>
-                                            <td>$670</td>
-                                            <th class="text-center">
-                                                <a href="#">
-                                                    <i class="mdi mdi-open-in-new"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="mdi mdi-close text-danger"></i>
-                                                </a>
-
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">2</td>
-                                            <td>HP Printer</td>
-                                            <td>EL-PR-HP234</td>
-                                            <td>$670</td>
-                                            <th class="text-center">
-                                                <a href="#">
-                                                    <i class="mdi mdi-open-in-new"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="mdi mdi-close text-danger"></i>
-                                                </a>
-
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">3</td>
-                                            <td>HP Printer</td>
-                                            <td>EL-PR-HP234</td>
-                                            <td>$670</td>
-                                            <th class="text-center">
-                                                <a href="#">
-                                                    <i class="mdi mdi-open-in-new"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="mdi mdi-close text-danger"></i>
-                                                </a>
-
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">4</td>
-                                            <td>HP Printer</td>
-                                            <td>EL-PR-HP234</td>
-                                            <td>$670</td>
-                                            <th class="text-center">
-                                                <a href="#">
-                                                    <i class="mdi mdi-open-in-new"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="mdi mdi-close text-danger"></i>
-                                                </a>
-
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">5</td>
-                                            <td>HP Printer</td>
-                                            <td>EL-PR-HP234</td>
-                                            <td>$670</td>
-                                            <th class="text-center">
-                                                <a href="#">
-                                                    <i class="mdi mdi-open-in-new"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="mdi mdi-close text-danger"></i>
-                                                </a>
-
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">6</td>
-                                            <td>HP Printer</td>
-                                            <td>EL-PR-HP234</td>
-                                            <td>$670</td>
-                                            <th class="text-center">
-                                                <a href="#">
-                                                    <i class="mdi mdi-open-in-new"></i>
-                                                </a>
-                                                <a href="#">
-                                                    <i class="mdi mdi-close text-danger"></i>
-                                                </a>
-
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <form action="{{ route('job.assign') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="job_id" id="jobIdInput" />
+                            <select class="form-control" name="driver" id="exampleFormControlSelect12">
+                                @foreach ($drivers as $driver)
+                                    @if ($driver->status == 'available')
+                                        <option value="{{ $driver->id }}">{{ $driver->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger btn-pill"
+                                    data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary btn-pill">Save Changes</button>
                             </div>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger btn-pill" data-dismiss="modal">Close</button>
-                        </div>
+                        </form>
                     </div>
+
                 </div>
             </div>
-        @endsection
+        </div>
+
+
+        <script>
+            let currentJobId = null;
+            let jobIdInput = document.getElementById('jobIdInput');
+
+            function setJobId(id, e) {
+                e.preventDefault()
+                currentJobId = id;
+                jobIdInput.value = currentJobId;
+            }
+        </script>
+    @endsection

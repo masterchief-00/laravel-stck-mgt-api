@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                    ===================================== -->
+                                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                    ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -23,13 +23,6 @@
 
                     @hasanyrole('ADM|WHS')
                         <li>
-                            <a class="sidenav-item-link" href="/">
-                                <i class="mdi mdi-briefcase-account-outline"></i>
-                                <span class="nav-text">Business Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li>
                             <a class="sidenav-item-link" href="/analytics">
                                 <i class="mdi mdi-chart-line"></i>
                                 <span class="nav-text">Analytics Dashboard</span>
@@ -41,12 +34,6 @@
                     @hasanyrole('ADM|WHS|DLV')
                         <li class="section-title">
                             User actions
-                        </li>
-                        <li>
-                            <a class="sidenav-item-link" href="chat.html">
-                                <i class="mdi mdi-wechat"></i>
-                                <span class="nav-text">Chat</span>
-                            </a>
                         </li>
 
                         @canany(['product:view', 'product:register', 'product:update', 'product:delete'])
@@ -226,68 +213,63 @@
 
 @section('content')
     <div class="content">
+        @if (session('message'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                <label class="btn btn-success">{{ session('message') }}</label>
+            </div>
+        @endif
 
-        <!-- Basic Examples -->
         <div class="card card-default">
             <div class="card-header">
                 <h2>Add new driver</h2>
-
-
             </div>
             <div class="card-body">
                 <div class="collapse" id="collapse-basic-input">
 
                 </div>
-                <form>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{ route('users.add_drivers') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="form-row">
                         <div class="col-md-12 mb-3">
                             <label for="validationServer01">Names</label>
-                            <input type="text" class="form-control border-success" id="validationServer01"
-                                placeholder="User full names" required>
-                            <div class="text-success small mt-1">
-                                Looks good!
-                            </div>
+                            <input type="text" name="name" class="form-control border-success"
+                                id="validationServer01" value="{{ old('name') }}" placeholder="User full names"
+                                required>
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="validationServer02">ID number</label>
-                            <input type="text" class="form-control border-info" id="validationServer02"
+                            <input type="text" name="ID_NO" value="{{ old('ID_NO') }}"
+                                class="form-control border-info" id="validationServer02"
                                 placeholder="Identity card number" required>
-                            <div class="text-info small mt-1">
-                                We'll never share your email with anyone else.
-                            </div>
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="validationServer02">Email</label>
-                            <input type="text" class="form-control border-info" id="validationServer02"
-                                placeholder="Email" required>
-                            <div class="text-info small mt-1">
-                                We'll never share your email with anyone else.
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="validationServer02">ID number</label>
-                            <input type="text" class="form-control border-info" id="validationServer02"
-                                placeholder="Identity card number" required>
-                            <div class="text-warning small mt-1">
-                                Shucks, check the formatting of that and try again.
-                            </div>
+                            <input type="text" name="email" value="{{ old('email') }}"
+                                class="form-control border-info" id="validationServer02" placeholder="Email" required>
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="validationServer02">Phone number</label>
-                            <input type="text" class="form-control border-info" id="validationServer02"
-                                placeholder="Phone number" required>
-                            <div class="text-warning small mt-1">
-                                Shucks, check the formatting of that and try again.
-                            </div>
+                            <input type="text" name="phone" value="{{ old('phone') }}"
+                                class="form-control border-info" id="validationServer02" placeholder="Phone number"
+                                required>
                         </div>
 
                         <div class="form-group">
                             <label for="image">User image</label>
-                            <input type="file" class="form-control-file" id="image">
+                            <input type="file" name="image" value="{{ old('image') }}" class="form-control-file"
+                                id="image">
                         </div>
                     </div>
                     <button class="btn btn-primary btn-pill mr-2" type="submit">Submit</button>
-                    <button class="btn btn-light btn-pill" type="submit">Cancel</button>
                 </form>
 
             </div>

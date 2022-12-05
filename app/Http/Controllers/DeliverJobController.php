@@ -22,7 +22,25 @@ class DeliverJobController extends Controller
     {
         if ($request->user()->can('job:view')) {
             $jobs = DeliverJob::all();
-            return view('shipping.jobs',compact('jobs'));
+
+            $drivers = User::where('user_type', 'DRV')->get();
+            return view('shipping.jobs', compact('jobs', 'drivers'));
+        }
+    }
+
+    public function job_assign(Request $request)
+    {
+        if ($request->user()->hasAnyRole('ADM', 'DLV')) {
+            $job = DeliverJob::find($request->job_id);
+            $driver = User::find($request->driver);
+
+            $job->assigned_driver = $driver->name;
+            $job->update();
+
+            $driver->status = 'assigned';
+            $driver->update();
+
+            return redirect()->back()->with('message', 'Job assigned to ' . $job->assigned_driver);
         }
     }
 

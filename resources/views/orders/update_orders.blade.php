@@ -6,8 +6,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                                ===================================== -->
+                                                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                                    ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -23,13 +23,6 @@
                 <ul class="nav sidebar-inner" id="sidebar-menu">
 
                     @hasanyrole('ADM|WHS')
-                        <li>
-                            <a class="sidenav-item-link" href="/">
-                                <i class="mdi mdi-briefcase-account-outline"></i>
-                                <span class="nav-text">Business Dashboard</span>
-                            </a>
-                        </li>
-
                         <li>
                             <a class="sidenav-item-link" href="/analytics">
                                 <i class="mdi mdi-chart-line"></i>
@@ -282,7 +275,7 @@
                         <label for="email">Email</label>
                         <input type="text" name="email" class="form-control" id="email"
                             value="{{ $order->email }}">
-                    </div>                   
+                    </div>
 
                     <div class="form-group">
                         <label for="status">Status</label>

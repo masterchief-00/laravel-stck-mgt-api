@@ -23,14 +23,7 @@
                 <ul class="nav sidebar-inner" id="sidebar-menu">
 
                     @hasanyrole('ADM|WHS')
-                        <li>
-                            <a class="sidenav-item-link" href="/">
-                                <i class="mdi mdi-briefcase-account-outline"></i>
-                                <span class="nav-text">Business Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li>
+                         <li>
                             <a class="sidenav-item-link" href="/analytics">
                                 <i class="mdi mdi-chart-line"></i>
                                 <span class="nav-text">Analytics Dashboard</span>
@@ -43,13 +36,7 @@
                         <li class="section-title">
                             User actions
                         </li>
-                        <li>
-                            <a class="sidenav-item-link" href="chat.html">
-                                <i class="mdi mdi-wechat"></i>
-                                <span class="nav-text">Chat</span>
-                            </a>
-                        </li>
-
+                 
                         @canany(['product:view', 'product:register', 'product:update', 'product:delete'])
                             <li class="has-sub active expand">
                                 <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#product"

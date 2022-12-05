@@ -23,13 +23,6 @@
 
                     @hasanyrole('ADM|WHS')
                         <li>
-                            <a class="sidenav-item-link" href="/">
-                                <i class="mdi mdi-briefcase-account-outline"></i>
-                                <span class="nav-text">Business Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li>
                             <a class="sidenav-item-link" href="/analytics">
                                 <i class="mdi mdi-chart-line"></i>
                                 <span class="nav-text">Analytics Dashboard</span>
@@ -259,7 +252,7 @@
                                 <td>{{ $order->district }}</td>
                                 <td>{{ $order->email }}</td>
                                 <td>{{ $order->created_at }}</td>
-                                <td>{{ $order->order->orderItem->count() }}</td>
+                                <td>{{ $order->orderItem->count() }}</td>
                                 <td>${{ $order->total }}</td>
                                 <td><span
                                         class="badge badge-{{ $order->status == 'APPROVED' ? 'success' : ($order->status == 'PENDING' ? 'warning' : 'danger') }}">{{ $order->status }}</span>

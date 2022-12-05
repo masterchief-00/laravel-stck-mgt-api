@@ -6,8 +6,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                    ===================================== -->
+                                                                                                                                                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -24,13 +24,6 @@
 
                     @hasanyrole('ADM|WHS')
                         <li>
-                            <a class="sidenav-item-link" href="/">
-                                <i class="mdi mdi-briefcase-account-outline"></i>
-                                <span class="nav-text">Business Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li>
                             <a class="sidenav-item-link" href="/analytics">
                                 <i class="mdi mdi-chart-line"></i>
                                 <span class="nav-text">Analytics Dashboard</span>
@@ -43,13 +36,6 @@
                         <li class="section-title">
                             User actions
                         </li>
-                        <li>
-                            <a class="sidenav-item-link" href="chat.html">
-                                <i class="mdi mdi-wechat"></i>
-                                <span class="nav-text">Chat</span>
-                            </a>
-                        </li>
-
                         @canany(['product:view', 'product:register', 'product:update', 'product:delete'])
                             <li class="has-sub">
                                 <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#product"
@@ -241,7 +227,11 @@
             </div>
             <div class="card-body">
                 <div class="collapse" id="collapse-table-bordered">
-
+                    @if (session('message'))
+                        <div class="mb-4 font-medium text-sm text-green-600">
+                            <label class="btn btn-success">{{ session('message') }}</label>
+                        </div>
+                    @endif
                 </div>
                 <table class="table table-bordered">
                     <thead>
@@ -256,108 +246,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td scope="row">1</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-success">Available</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
+                        @foreach ($drivers as $driver)
+                            <tr>
+                                <td scope="row">{{ $driver->id }}</td>
+                                <td>{{ $driver->name }}</td>
+                                <td>{{ $driver->ID_NO }}</td>
+                                <td>{{ $driver->email }}</td>
+                                <td>{{ $driver->phone }}</td>
+                                <td><span
+                                        class="badge badge-{{ $driver->status == 'available' ? 'success' : ($driver->status == 'inactive' ? 'danger' : 'warning') }}">{{ $driver->status }}</span>
+                                </td>
+                                <th class="text-center">
+                                    <a href="/drivers/update/{{ $driver->id }}">
+                                        <i class="mdi mdi-open-in-new"></i>
+                                    </a>
+                                    <a href="/drivers/delete/{{ $driver->id }}">
+                                        <i class="mdi mdi-close text-danger"></i>
+                                    </a>
 
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">2</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-success">Available</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">3</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-danger">Inactive</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">4</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-warning">Assigned</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">5</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-success">Available</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
-                        <tr>
-                            <td scope="row">6</td>
-                            <td>Kalinda Vital</td>
-                            <td>1234567890</td>
-                            <td>kwizerapacifique19@gmail.com</td>
-                            <td>123-456-787</td>
-                            <td><span class="badge badge-warning">Assigned</span></td>
-                            <th class="text-center">
-                                <a href="#">
-                                    <i class="mdi mdi-open-in-new"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="mdi mdi-close text-danger"></i>
-                                </a>
-
-                            </th>
-                        </tr>
+                                </th>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\CartComponent;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
@@ -36,7 +37,6 @@ Route::post('/signup', [UserController::class, 'register'])->name('user.signup')
 
 
 
-Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('order.checkout');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
@@ -78,8 +78,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/orders/delete/{id}', [OrderController::class, 'delete_order']);
     Route::get('/orders/update/{id}', [OrderController::class, 'show_order_edit']);
     Route::post('/orders/edit', [OrderController::class, 'edit_order'])->name('orders.edit');
+    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('order.checkout');
 
-    Route::get('/jobs',[DeliverJobController::class,'jobs_show']);
+    Route::get('/jobs', [DeliverJobController::class, 'jobs_show']);
+    Route::get('/jobs/add_drivers', [UserController::class, 'show_register_driver']);
+    Route::post('/users/add_drivers', [UserController::class, 'register_driver'])->name('users.add_drivers');
+
+    Route::get('/jobs/drivers', [UserController::class, 'show_drivers']);
+    Route::get('/drivers/delete/{id}', [UserController::class, 'delete_driver']);
+    Route::post('/jobs/assign', [DeliverJobController::class, 'job_assign'])->name('job.assign');
+
+    Route::get('/analytics',[AnalyticsController::class,'show_analytics']);
 
     Route::get('/thanks', function () {
         return view('thankyou');
@@ -96,17 +105,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/account', function () {
         return view('accountSettings');
-    });
-
-    Route::get('/analytics', function () {
-        return view('analytics');
-    });
-
-    Route::get('/jobs/drivers', function () {
-        return view('shipping.drivers');
-    });
-
-    Route::get('/jobs/add_drivers', function () {
-        return view('shipping.add_drivers');
-    });
+    });   
 });

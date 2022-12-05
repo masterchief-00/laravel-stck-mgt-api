@@ -51,6 +51,13 @@
                         <div class="topbar-menu right-menu">
                             <ul>
                                 @auth
+                                    @hasanyrole('ADM|WHS|DLV')
+                                        <li>
+                                            <a href="/analytics" class="mb-1 btn btn-outline-warning btn-pill">Go to
+                                                dashboard</a>
+                                        </li>
+                                    @endhasanyrole
+
                                     <li class="menu-item menu-item-has-children parent">
                                         <a title="My account" href="#">My account ({{ Auth::user()->name }})<i
                                                 class="fa fa-angle-down" aria-hidden="true"></i></a>

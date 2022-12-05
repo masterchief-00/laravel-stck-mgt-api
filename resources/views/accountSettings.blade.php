@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                            ===================================== -->
+                                                                                                                                                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -22,13 +22,6 @@
                 <ul class="nav sidebar-inner" id="sidebar-menu">
 
                     @hasanyrole('ADM|WHS')
-                        <li>
-                            <a class="sidenav-item-link" href="/">
-                                <i class="mdi mdi-briefcase-account-outline"></i>
-                                <span class="nav-text">Business Dashboard</span>
-                            </a>
-                        </li>
-
                         <li>
                             <a class="sidenav-item-link" href="/analytics">
                                 <i class="mdi mdi-chart-line"></i>
@@ -233,19 +226,20 @@
             <div class="card-body card-profile-body">
                 <div class="profile-avata">
                     @if (Auth::user()->image != null)
-                        <img class="user-image rounded-circle" src="{{ Auth::user()->image }}" style="height: 60px" alt="Avata Image" />
+                        <img class="user-image rounded-circle" src="{{ Auth::user()->image }}" style="height: 60px"
+                            alt="Avata Image" />
                     @else
                         <img class="user-image rounded-circle" src="{{ asset('images/avatar-small.jpg') }}"
                             alt="Avata Image" />
                     @endif
                     <a class="h5 d-block mt-3 mb-2" href="#">{{ Auth::user()->name }}</a>
                     <a class="d-block text-color" href="#">{{ Auth::user()->email }}</a>
-                </div>               
-            </div>            
+                </div>
+            </div>
         </div>
 
         <div class="row">
-            
+
             <div class="col-xl-12">
                 <!-- Account Settings -->
                 <div class="card card-default">
@@ -261,19 +255,22 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="firstName">Names</label>
-                                        <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control" id="firstName" />
+                                        <input type="text" name="name" value="{{ Auth::user()->name }}"
+                                            class="form-control" id="firstName" />
                                     </div>
-                                </div>                               
+                                </div>
                             </div>
-                            
+
                             <div class="form-group mb-4">
                                 <label for="email">Email</label>
-                                <input type="email" value="{{ Auth::user()->email }}" class="form-control" id="email" disabled />
+                                <input type="email" value="{{ Auth::user()->email }}" class="form-control"
+                                    id="email" disabled />
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="email">Identity card number</label>
-                                <input type="email" value="{{ Auth::user()->ID_NO }}" class="form-control" id="ID_NO" disabled />
+                                <input type="email" value="{{ Auth::user()->ID_NO }}" class="form-control"
+                                    id="ID_NO" disabled />
                             </div>
 
                             <div class="form-group">
@@ -288,7 +285,8 @@
 
                             <div class="form-group mb-4">
                                 <label for="conPassword">Confirm password</label>
-                                <input type="password" name="password_confirmation" class="form-control" id="conPassword" />
+                                <input type="password" name="password_confirmation" class="form-control"
+                                    id="conPassword" />
                             </div>
 
                             <div class="d-flex justify-content-end mt-6">
