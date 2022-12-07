@@ -20,7 +20,6 @@ class UserController extends Controller
         return view('users.users', compact('users'));
     }
 
-
     public function show_register_driver(Request $request)
     {
         if ($request->user()->hasAnyRole('ADM', 'DLV')) {
@@ -108,16 +107,24 @@ class UserController extends Controller
         $is_api_request = $request->route()->getPrefix() === 'api';
 
         if ($request->user()->hasRole('ADM')) {
-            $user = User::create([
-                'name' => $fields['name'],
-                'email' => $fields['email'],
-                'ID_NO' => $fields['ID_NO'],
-                'phone' => $fields['phone'],
-                'user_type' => $fields['user_type'],
-                'image' => $fields['image'],
-                'password' => Hash::make('12345678')
-            ]);
+           
+            $user=new User();
+            $user->name=$fields['name'];
+            $user->email=$fields['email'];
+            $user->ID_NO=$fields['ID_NO'];
+            $user->phone=$fields['phone'];
+            $user->user_type=$fields['user_type'];
+            $user->password=Hash::make('12345678');
+
+            if (isset($fields['image'])) {
+                $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+    
+                $user->image = $image__url;
+            }
+
             $user->assignRole($fields['user_type']);
+
+            $user->save();
 
             if ($is_api_request) {
                 $token = $user->createToken('myapptoken')->plainTextToken;

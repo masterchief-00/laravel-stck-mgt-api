@@ -103,22 +103,19 @@
                                 </a>
                                 <ul class="collapse" id="shipping" data-parent="#sidebar-menu">
                                     <div class="sub-menu">
-                                        @can('job:view')
-                                            <li>
-                                                <a class="sidenav-item-link" href="/jobs">
-                                                    <span class="nav-text">All jobs</span>
-
-                                                </a>
-                                            </li>
-                                        @endcan
-
-                                        @can('user:view')
+                                        @role('DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
                                                 </a>
                                             </li>
-                                        @endcan
+                                            <li>
+                                                <a class="sidenav-item-link" href="/jobs/add_drivers">
+                                                    <span class="nav-text">Add drivers</span>
+
+                                                </a>
+                                            </li>
+                                        @endrole 
 
                                         @can('user:register')
                                             <li>

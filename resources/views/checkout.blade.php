@@ -39,7 +39,7 @@
                         </p>
                         <p class="row-in-form">
                             <label for="phone">Phone number<span>*</span></label>
-                            <input id="phone" type="number" name="phone" value="{{ Auth::user()->phone }}"
+                            <input id="phone" type="text" name="phone" value="{{ Auth::user()->phone }}"
                                 placeholder="10 digits format">
                         </p>
 

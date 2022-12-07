@@ -104,22 +104,19 @@
                                             </li>
                                         @endcan
 
-                                        @can('user:view')
+                                        @role('DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
                                                 </a>
                                             </li>
-                                        @endcan
-
-                                        @can('user:register')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/add_drivers">
                                                     <span class="nav-text">Add drivers</span>
 
                                                 </a>
                                             </li>
-                                        @endcan
+                                        @endrole                                       
                                     </div>
                                 </ul>
                             </li>
@@ -284,7 +281,7 @@
                     <div class="card-body">
                         <div class="bg-primary d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
                             <div class="d-flex flex-column">
-                                <span class="h3 text-white">Total: {{ $user_count }}</span>
+                                <span class="h3 text-white">Total: {{ $driver_count }}</span>
                             </div>
                             <div>
                                 <span>registered</span>

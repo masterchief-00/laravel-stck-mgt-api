@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                        ===================================== -->
+                                                                                                                                                                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                            ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -97,22 +97,19 @@
                                 </a>
                                 <ul class="collapse" id="shipping" data-parent="#sidebar-menu">
                                     <div class="sub-menu">
-                                        @can('job:view')
-                                            <li>
-                                                <a class="sidenav-item-link" href="/jobs">
-                                                    <span class="nav-text">All jobs</span>
-
-                                                </a>
-                                            </li>
-                                        @endcan
-
-                                        @can('user:view')
+                                        @role('DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
                                                 </a>
                                             </li>
-                                        @endcan
+                                            <li>
+                                                <a class="sidenav-item-link" href="/jobs/add_drivers">
+                                                    <span class="nav-text">Add drivers</span>
+
+                                                </a>
+                                            </li>
+                                        @endrole 
 
                                         @can('user:register')
                                             <li>
@@ -222,14 +219,28 @@
         <div class="card card-default">
             <div class="card-header">
                 <h2>Add new admin</h2>
-
+                @if (session('message'))
+                    <div class="mb-4 font-medium text-sm text-green-600">
+                        <label class="btn btn-success">{{ session('message') }}</label>
+                    </div>
+                @endif
 
             </div>
             <div class="card-body">
                 <div class="collapse" id="collapse-basic-input">
 
                 </div>
-                <form action="{{ route('admin.add') }}" method="POST">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="{{ route('admin.add') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-row">
                         <div class="col-md-12 mb-3">

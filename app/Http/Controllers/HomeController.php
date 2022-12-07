@@ -12,6 +12,6 @@ class HomeController extends Controller
     }
     public function index()
     {
-        return redirect()->route('/analytics');
+        return redirect()->route('analytics');
     }
 }

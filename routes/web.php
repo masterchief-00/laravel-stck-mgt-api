@@ -88,7 +88,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/drivers/delete/{id}', [UserController::class, 'delete_driver']);
     Route::post('/jobs/assign', [DeliverJobController::class, 'job_assign'])->name('job.assign');
 
-    Route::get('/analytics',[AnalyticsController::class,'show_analytics']);
+    Route::get('/analytics',[AnalyticsController::class,'show_analytics'])->name('analytics');
 
     Route::get('/thanks', function () {
         return view('thankyou');

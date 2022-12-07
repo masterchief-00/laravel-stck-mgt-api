@@ -106,22 +106,19 @@
                                             </li>
                                         @endcan
 
-                                        @can('user:view')
+                                        @role('DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
                                                 </a>
                                             </li>
-                                        @endcan
-
-                                        @can('user:register')
-                                            <li class="active">
+                                            <li>
                                                 <a class="sidenav-item-link" href="/jobs/add_drivers">
                                                     <span class="nav-text">Add drivers</span>
 
                                                 </a>
                                             </li>
-                                        @endcan
+                                        @endrole 
                                     </div>
                                 </ul>
                             </li>
@@ -258,7 +255,7 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="validationServer02">Phone number</label>
-                            <input type="text" name="phone" value="{{ old('phone') }}"
+                            <input type="phone" name="phone" value="{{ old('phone') }}"
                                 class="form-control border-info" id="validationServer02" placeholder="Phone number"
                                 required>
                         </div>
