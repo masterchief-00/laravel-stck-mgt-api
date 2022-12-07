@@ -97,19 +97,19 @@
                                 </a>
                                 <ul class="collapse" id="shipping" data-parent="#sidebar-menu">
                                     <div class="sub-menu">
-                                        @role('DLV')
-                                            <li>
-                                                <a class="sidenav-item-link" href="/jobs/drivers">
-                                                    <span class="nav-text">All drivers</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="sidenav-item-link" href="/jobs/add_drivers">
-                                                    <span class="nav-text">Add drivers</span>
+                                        @hasanyrole('ADM|DLV')
+                                        <li>
+                                            <a class="sidenav-item-link" href="/jobs/drivers">
+                                                <span class="nav-text">All drivers</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="sidenav-item-link" href="/jobs/add_drivers">
+                                                <span class="nav-text">Add drivers</span>
 
-                                                </a>
-                                            </li>
-                                        @endrole 
+                                            </a>
+                                        </li>
+                                    @endhasanyrole
 
                                         @can('user:register')
                                             <li>

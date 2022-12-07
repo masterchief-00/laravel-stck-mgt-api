@@ -6,8 +6,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                    ===================================== -->
+                                                                                                                                                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                        ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -23,7 +23,7 @@
                 <ul class="nav sidebar-inner" id="sidebar-menu">
 
                     @hasanyrole('ADM|WHS')
-                         <li>
+                        <li>
                             <a class="sidenav-item-link" href="/analytics">
                                 <i class="mdi mdi-chart-line"></i>
                                 <span class="nav-text">Analytics Dashboard</span>
@@ -36,7 +36,7 @@
                         <li class="section-title">
                             User actions
                         </li>
-                 
+
                         @canany(['product:view', 'product:register', 'product:update', 'product:delete'])
                             <li class="has-sub active expand">
                                 <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#product"
@@ -107,7 +107,7 @@
                                             </li>
                                         @endcan
 
-                                        @role('DLV')
+                                        @hasanyrole('ADM|DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
@@ -119,7 +119,7 @@
 
                                                 </a>
                                             </li>
-                                        @endrole 
+                                        @endhasanyrole
                                     </div>
                                 </ul>
                             </li>

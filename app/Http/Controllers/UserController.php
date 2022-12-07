@@ -328,12 +328,13 @@ class UserController extends Controller
     }
     public function register_driver(Request $request)
     {
+        // dd($request->all());
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'ID_NO' => 'required|unique:users,ID_NO',
             'phone' => 'required|unique:users,phone',
-            'image' => 'image|mimes:jpeg,jpg,png|nullable',
+            'image' => 'image|mimes:jpeg,jpg,png|required',
         ]);
 
         if ($request->user()->hasAnyRole('ADM', 'DLV')) {
@@ -345,7 +346,7 @@ class UserController extends Controller
             $user->user_type = 'DRV';
             $user->status = 'available';
             $user->password = Hash::make('12345678');
-
+            
             $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
 
             $user->image = $image__url;

@@ -4,8 +4,8 @@
 
 @section('sidebar')
     <!-- ====================================
-                                                                                                                                                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                        ===================================== -->
+                                                                                                                                                                                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                                                        ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -104,7 +104,7 @@
                                             </li>
                                         @endcan
 
-                                        @role('DLV')
+                                        @hasanyrole('ADM|DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
@@ -116,7 +116,7 @@
 
                                                 </a>
                                             </li>
-                                        @endrole                                       
+                                        @endhasanyrole
                                     </div>
                                 </ul>
                             </li>
@@ -212,124 +212,122 @@
     <div class="content">
         <!-- User Sessions Bounce -->
         <div class="row">
-            <div class="col-xl-4">
 
-                <!-- User -->
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Users</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="bg-primary d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white">Total: {{ $user_count }}</span>
-                            </div>
-                            <div>
-                                <span>registered</span>
-                            </div>
+            <div class="col-xl-4">
+                <div class="card card-default bg-secondary">
+                    <div class="d-flex p-5">
+                        <div class="icon-md bg-white rounded-circle mr-3">
+                            <i class="mdi mdi-account-plus-outline text-secondary"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="h2 d-block text-white">{{ $user_count }}</span>
+                            <p class="text-white">Customers</p>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="col-xl-4">
 
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Products</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="bg-success d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white"> Total: {{ $product_count }}</span>
-                            </div>
-                            <div>
-                                <span>registered</span>
-                            </div>
+            <div class="col-xl-4">
+                <div class="card card-default bg-primary">
+                    <div class="d-flex p-5">
+                        <div class="icon-md bg-white rounded-circle mr-3">
+                            <i class="mdi mdi-content-save-edit-outline text-primary"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="h2 d-block text-white">{{ $product_count }}</span>
+                            <p class="text-white">Total products</p>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="col-xl-4">
 
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Orders</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="bg-danger d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white">Total: {{ $order_count }}</span>
-                            </div>
-                            <div>
-                                <span>All combined</span>
-                            </div>
+            <div class="col-xl-4">
+                <div class="card card-default bg-success">
+                    <div class="d-flex p-5">
+                        <div class="icon-md bg-white rounded-circle mr-3">
+                            <i class="mdi mdi-table-edit text-success"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="h2 d-block text-white">{{ $order_count }}</span>
+                            <p class="text-white">Orders Placed</p>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
         <div class="row">
+
             <div class="col-xl-4">
                 <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Drivers</h2>
+                    <div class="d-flex p-5 justify-content-between">
+                        <div class="icon-md bg-secondary rounded-circle mr-3">
+                            <i class="mdi mdi-account-plus-outline"></i>
+                        </div>
+                        <div class="text-right">
+                            <span class="h2 d-block">{{ $driver_count }}</span>
+                            <p>Delivery drivers</p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="bg-primary d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white">Total: {{ $driver_count }}</span>
-                            </div>
-                            <div>
-                                <span>registered</span>
-                            </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card card-default">
+                    <div class="d-flex p-5 justify-content-between">
+                        <div class="icon-md bg-success rounded-circle mr-3">
+                            <i class="mdi mdi-table-edit"></i>
+                        </div>
+                        <div class="text-right">
+                            <span class="h2 d-block">{{ $category_count }}</span>
+                            <p>Categories</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card card-default">
+                    <div class="d-flex p-5">
+                        <div class="icon-md bg-success rounded-circle mr-3">
+                            <i class="mdi mdi-table-edit"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="h2 d-block">{{ $orders_approved_Count }}</span>
+                            <p>Orders approved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card card-default">
+                    <div class="d-flex p-5">
+                        <div class="icon-md bg-info rounded-circle mr-3">
+                            <i class="mdi mdi-bell"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="h2 d-block">${{ $sales_all }}</span>
+                            <p>Lifetime Sales</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-xl-4">
-
                 <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Categories</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="bg-success d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white"> Total: {{ $category_count }}</span>
-                            </div>
-                            <div>
-                                <span>registered</span>
-                            </div>
+                    <div class="d-flex p-5">
+                        <div class="icon-md bg-info rounded-circle mr-3">
+                            <i class="mdi mdi-bell"></i>
+                        </div>
+                        <div class="text-left">
+                            <span class="h2 d-block">${{ $sales_expected }}</span>
+                            <p>Sales(pending)</p>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            <div class="col-xl-4">
-
-                <div class="card card-default">
-                    <div class="card-header">
-                        <h2>Approved orders</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="bg-danger d-flex justify-content-between flex-wrap p-5 text-white align-items-lg-end">
-                            <div class="d-flex flex-column">
-                                <span class="h3 text-white">Total: {{ $orders_approved_Count }}</span>
-                            </div>
-                            <div>
-                                <span>Approved</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
         </div>
     </div>
 @endsection

@@ -31,9 +31,15 @@ class AnalyticsController extends Controller
         $orders_approved = Order::where('status', 'APPROVED')->get();
         $orders_approved_Count = $orders_approved->count();
 
+        $sales_all=$orders_approved->sum('total');
+
+        $orders_expected=Order::where('status','PENDING')->get();
+        $sales_expected=$orders_expected->sum('total');
+
+
         $categories = Category::all();
         $category_count = $categories->count();
 
-        return view('analytics', compact('user_count', 'product_count', 'order_count', 'driver_count', 'category_count', 'orders_approved_Count'));
+        return view('analytics', compact('user_count', 'product_count', 'order_count', 'driver_count', 'category_count', 'orders_approved_Count','sales_all','sales_expected'));
     }
 }

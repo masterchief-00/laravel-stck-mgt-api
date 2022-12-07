@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                    ===================================== -->
+                                                                                                                                                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                        ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -106,19 +106,19 @@
                                             </li>
                                         @endcan
 
-                                        @role('DLV')
+                                        @hasanyrole('ADM|DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
                                                 </a>
                                             </li>
-                                            <li>
+                                            <li class="active">
                                                 <a class="sidenav-item-link" href="/jobs/add_drivers">
                                                     <span class="nav-text">Add drivers</span>
 
                                                 </a>
                                             </li>
-                                        @endrole 
+                                        @endhasanyrole
                                     </div>
                                 </ul>
                             </li>
@@ -262,8 +262,7 @@
 
                         <div class="form-group">
                             <label for="image">User image</label>
-                            <input type="file" name="image" value="{{ old('image') }}" class="form-control-file"
-                                id="image">
+                            <input type="file" class="form-control-file" id="image" name="image">
                         </div>
                     </div>
                     <button class="btn btn-primary btn-pill mr-2" type="submit">Submit</button>

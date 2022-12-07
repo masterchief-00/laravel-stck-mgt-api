@@ -106,7 +106,7 @@
                                             </li>
                                         @endcan
 
-                                        @role('DLV')
+                                        @hasanyrole('ADM|DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
@@ -118,7 +118,7 @@
 
                                                 </a>
                                             </li>
-                                        @endrole 
+                                        @endhasanyrole 
                                     </div>
                                 </ul>
                             </li>

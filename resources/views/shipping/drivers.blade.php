@@ -6,8 +6,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                ===================================== -->
+                                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                    ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -106,8 +106,8 @@
                                             </li>
                                         @endcan
 
-                                        @role('DLV')
-                                            <li>
+                                        @hasanyrole('ADM|DLV')
+                                            <li class="active">
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
                                                 </a>
@@ -118,7 +118,7 @@
 
                                                 </a>
                                             </li>
-                                        @endrole 
+                                        @endhasanyrole
                                     </div>
                                 </ul>
                             </li>

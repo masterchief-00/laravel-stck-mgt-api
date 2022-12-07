@@ -5,8 +5,8 @@
 @section('sidebar')
 
     <!-- ====================================
-                                                                                                                                                                                                                                                                                  ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                ===================================== -->
+                                                                                                                                                                                                                                                                                      ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                    ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -103,7 +103,7 @@
                                 </a>
                                 <ul class="collapse" id="shipping" data-parent="#sidebar-menu">
                                     <div class="sub-menu">
-                                        @role('DLV')
+                                        @hasanyrole('ADM|DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
@@ -115,7 +115,7 @@
 
                                                 </a>
                                             </li>
-                                        @endrole 
+                                        @endhasanyrole
 
                                         @can('user:register')
                                             <li>

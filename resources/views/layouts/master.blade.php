@@ -96,10 +96,17 @@
                             <div class="navbar-right ">
 
 
-                                <ul class="nav navbar-nav">
+                                <ul class="nav navbar-nav">                                    
+
                                     <li>
-                                        <a href="/shop" class="mb-1 btn btn-outline-warning btn-pill">Go to customer page</a>
+                                        <a href="/shop" class="mb-1 btn btn-outline-warning btn-pill">Go to customer
+                                            page</a>
                                     </li>
+
+                                    <li class="ml-5">
+                                        <span class="badge badge-dark">{{ Auth::user()->user_type == 'ADM' ? 'Overlord(Super Admin)' : (Auth::user()->user_type == 'WHS' ? 'Warehouse Manager' : 'Shipping Manager') }}</span>
+                                    </li>
+
                                     <!-- User Account -->
                                     <li class="dropdown user-menu">
                                         <button class="dropdown-toggle nav-link" data-toggle="dropdown">

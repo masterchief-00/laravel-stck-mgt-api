@@ -4,8 +4,8 @@
 
 @section('sidebar')
     <!-- ====================================
-                                                                                                                                                                                                                                                                                          ——— LEFT SIDEBAR WITH OUT FOOTER
-                                                                                                                                                                                                                                                                                        ===================================== -->
+                                                                                                                                                                                                                                                                                              ——— LEFT SIDEBAR WITH OUT FOOTER
+                                                                                                                                                                                                                                                                                            ===================================== -->
     <aside class="left-sidebar sidebar-dark" id="left-sidebar">
         <div id="sidebar" class="sidebar sidebar-with-footer">
             <!-- Aplication Brand -->
@@ -36,8 +36,8 @@
                         </li>
                         @canany(['product:view', 'product:register', 'product:update', 'product:delete'])
                             <li class="has-sub">
-                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                                    data-target="#product" aria-expanded="false" aria-controls="product">
+                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#product"
+                                    aria-expanded="false" aria-controls="product">
                                     <i class="mdi mdi-cart"></i>
                                     <span class="nav-text">Products</span> <b class="caret"></b>
                                 </a>
@@ -67,8 +67,8 @@
 
                         @canany(['order:update', 'order:delete', 'order:view', 'order:register'])
                             <li class="has-sub">
-                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                                    data-target="#orders" aria-expanded="false" aria-controls="orders">
+                                <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#orders"
+                                    aria-expanded="false" aria-controls="orders">
                                     <i class="mdi mdi-basket"></i>
                                     <span class="nav-text">Orders</span> <b class="caret"></b>
                                 </a>
@@ -104,7 +104,7 @@
                                             </li>
                                         @endcan
 
-                                        @role('DLV')
+                                        @hasanyrole('ADM|DLV')
                                             <li>
                                                 <a class="sidenav-item-link" href="/jobs/drivers">
                                                     <span class="nav-text">All drivers</span>
@@ -116,7 +116,7 @@
 
                                                 </a>
                                             </li>
-                                        @endrole 
+                                        @endhasanyrole
                                     </div>
                                 </ul>
                             </li>
