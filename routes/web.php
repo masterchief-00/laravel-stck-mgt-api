@@ -35,9 +35,6 @@ Route::post('/login', [UserController::class, 'login'])->name('user.login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::post('/signup', [UserController::class, 'register'])->name('user.signup');
 
-
-
-
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index']);

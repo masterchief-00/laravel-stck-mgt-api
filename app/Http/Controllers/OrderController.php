@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:ADM|WHS']);
+        $this->middleware(['role:ADM|WHS|USR']);
     }
     /**render orders view */
     public function orders_show(Request $request)

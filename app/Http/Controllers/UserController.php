@@ -74,10 +74,14 @@ class UserController extends Controller
 
         if ($is_api_request) {
             $token = $user->createToken('myapptoken')->plainTextToken;
+            $categories = Category::all();
+            $user_permissions = $user->getAllPermissions();
 
             return [
                 'message' => 'user registered',
                 'user' => $user,
+                'categories' => $categories,
+                'permissions' => $user_permissions,
                 'token' => $token
             ];
         } else {
@@ -107,18 +111,18 @@ class UserController extends Controller
         $is_api_request = $request->route()->getPrefix() === 'api';
 
         if ($request->user()->hasRole('ADM')) {
-           
-            $user=new User();
-            $user->name=$fields['name'];
-            $user->email=$fields['email'];
-            $user->ID_NO=$fields['ID_NO'];
-            $user->phone=$fields['phone'];
-            $user->user_type=$fields['user_type'];
-            $user->password=Hash::make('12345678');
+
+            $user = new User();
+            $user->name = $fields['name'];
+            $user->email = $fields['email'];
+            $user->ID_NO = $fields['ID_NO'];
+            $user->phone = $fields['phone'];
+            $user->user_type = $fields['user_type'];
+            $user->password = Hash::make('12345678');
 
             if (isset($fields['image'])) {
                 $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
-    
+
                 $user->image = $image__url;
             }
 
@@ -346,7 +350,7 @@ class UserController extends Controller
             $user->user_type = 'DRV';
             $user->status = 'available';
             $user->password = Hash::make('12345678');
-            
+
             $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
 
             $user->image = $image__url;
