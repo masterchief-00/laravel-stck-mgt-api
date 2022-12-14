@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -50,6 +51,7 @@ class ProductController extends Controller
     /**create new product */
     public function store(Request $request)
     {
+        Log::info($request->all());
 
         $fields = $request->validate([
             'name' => 'required|string',
@@ -59,7 +61,7 @@ class ProductController extends Controller
             'exp_date' => 'required',
             'arriv_date' => 'required',
             'unit_price' => 'required',
-            'image' => 'required|image|mimes:png,jpg,jpeg'
+            'image' => 'image|mimes:png,jpg,jpeg|nullable'
         ]);
 
         $is_api_request =  $request->route()->getPrefix() === 'api';
@@ -75,9 +77,11 @@ class ProductController extends Controller
             $product->arriv_date = $fields['arriv_date'];
             $product->unit_price = $fields['unit_price'];
 
-            $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+            if (isset($fields['image'])) {
+                $image__url = Cloudinary::upload($fields['image']->getRealPath())->getSecurePath();
+                $product->image = $image__url;
+            }
 
-            $product->image = $image__url;
             $product->save();
 
             if ($is_api_request) {
@@ -145,6 +149,7 @@ class ProductController extends Controller
             if ($response == 1) {
                 return [
                     'message' => 'product deleted',
+                    'product' => $product
                 ];
             } else {
                 return [

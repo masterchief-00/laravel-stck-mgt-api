@@ -67,7 +67,8 @@ class OrderController extends Controller
                 'district' => $fields['district'],
                 'phone' => $fields['phone'],
                 'email' => $fields['email'],
-                'user_id' => $is_api_request ? $fields['user_id'] : $request->user()->id,
+                // 'user_id' => $is_api_request ? $fields['user_id'] : $request->user()->id,
+                'user_id' => $request->user()->id,
                 'status' => 'PENDING',
                 'total' => $fields['total']
             ]);

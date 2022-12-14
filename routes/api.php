@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DeliverJobController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
@@ -61,7 +62,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/orderItems', [OrderItemController::class, 'store']);
     Route::put('/orderItems/{id}', [OrderItemController::class, 'update']);
     Route::get('/orderItems/{id}', [OrderItemController::class, 'show']);
+    Route::get('/orderItems/findById/{id}', [OrderItemController::class, 'show_items']);
     Route::delete('/orderItems/{id}', [OrderItemController::class, 'destroy']);
+
+    Route::post('/checkout', [CheckoutController::class, 'checkout']);
 
     /** DELIVERY JOB ROUTES */
     Route::get('/deliverJobs', [DeliverJobController::class, 'index']);

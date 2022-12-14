@@ -116,6 +116,15 @@ class OrderItemController extends Controller
         return OrderItem::find($id);
     }
 
+    public function show_items($id)
+    {
+        $items = OrderItem::where('order_id', $id)->get();
+
+        return [
+            'items' => $items
+        ];
+    }
+
     /** delete order */
     public function destroy($id)
     {
